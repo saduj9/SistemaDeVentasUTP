@@ -22,6 +22,8 @@ public class FrmMenu extends javax.swing.JFrame {
         this.setTitle("Sistema de ventas");
         this.setLayout(null);
         jDesktopPane_menu = new JDesktopPane();
+        this.jPanel1.setSize(new Dimension(420, 270));
+        this.jPanel1.setLocation(1500, 700);
         /*Ctrl_Usuario controlUsuario = new Ctrl_Usuario();
         String rolLog = controlUsuario.rol;
         jMenu_gestionar_venta.setVisible(false);
@@ -69,6 +71,7 @@ public class FrmMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu_nuevo_usuario = new javax.swing.JMenuItem();
@@ -80,6 +83,8 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenu_nuevo_cliente = new javax.swing.JMenuItem();
         jMenu_gestionar_cliente = new javax.swing.JMenuItem();
+        jMenu_nuevo_proveedor = new javax.swing.JMenuItem();
+        jMenu_gestionar_proveedor = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu_nueva_categoria = new javax.swing.JMenuItem();
         jMenu_gestionar_categoria = new javax.swing.JMenuItem();
@@ -98,6 +103,17 @@ public class FrmMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setIconImage(getIconImage());
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 327, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 124, Short.MAX_VALUE)
+        );
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         jMenu1.setText("Empleado");
@@ -171,13 +187,15 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cliente.png"))); // NOI18N
-        jMenu3.setText("Cliente");
+        jMenu3.setText("Cliente y Proveedor");
         jMenu3.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
-        jMenu3.setPreferredSize(new java.awt.Dimension(150, 50));
+        jMenu3.setMinimumSize(new java.awt.Dimension(220, 50));
+        jMenu3.setName(""); // NOI18N
+        jMenu3.setPreferredSize(new java.awt.Dimension(220, 50));
 
         jMenu_nuevo_cliente.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jMenu_nuevo_cliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo-cliente.png"))); // NOI18N
-        jMenu_nuevo_cliente.setText("Registro cliente");
+        jMenu_nuevo_cliente.setText("Registro Cliente");
         jMenu_nuevo_cliente.setPreferredSize(new java.awt.Dimension(180, 30));
         jMenu_nuevo_cliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +213,27 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenu_gestionar_cliente);
+
+        jMenu_nuevo_proveedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu_nuevo_proveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/nuevo-cliente.png"))); // NOI18N
+        jMenu_nuevo_proveedor.setText("Registro Proveedor");
+        jMenu_nuevo_proveedor.setPreferredSize(new java.awt.Dimension(180, 30));
+        jMenu_nuevo_proveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu_nuevo_proveedorActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenu_nuevo_proveedor);
+
+        jMenu_gestionar_proveedor.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu_gestionar_proveedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cliente.png"))); // NOI18N
+        jMenu_gestionar_proveedor.setText("Gestionar Proveedor");
+        jMenu_gestionar_proveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu_gestionar_proveedorActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenu_gestionar_proveedor);
 
         jMenuBar1.add(jMenu3);
 
@@ -349,11 +388,15 @@ public class FrmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(873, 873, 873)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 649, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(525, 525, 525)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -398,11 +441,9 @@ public class FrmMenu extends javax.swing.JFrame {
         InterCliente interCliente = new InterCliente();
         jDesktopPane_menu.add(interCliente);
         interCliente.setVisible(true);
-
     }//GEN-LAST:event_jMenu_nuevo_clienteActionPerformed
 
     private void jMenu_gestionar_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_gestionar_clienteActionPerformed
-
         InterGestionarCliente interGestionarCliente = new InterGestionarCliente();
         jDesktopPane_menu.add(interGestionarCliente);
         interGestionarCliente.setVisible(true);
@@ -441,6 +482,19 @@ public class FrmMenu extends javax.swing.JFrame {
     private void jMenu_ver_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_ver_historialActionPerformed
 
     }//GEN-LAST:event_jMenu_ver_historialActionPerformed
+
+    private void jMenu_nuevo_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_nuevo_proveedorActionPerformed
+        InterProveedor interProveedor = new InterProveedor();
+        jDesktopPane_menu.add(interProveedor);
+        interProveedor.setVisible(true);
+
+    }//GEN-LAST:event_jMenu_nuevo_proveedorActionPerformed
+
+    private void jMenu_gestionar_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_gestionar_proveedorActionPerformed
+        InterGestionarProveedor interGestionarProveedor = new InterGestionarProveedor();
+        jDesktopPane_menu.add(interGestionarProveedor);
+        interGestionarProveedor.setVisible(true);
+    }//GEN-LAST:event_jMenu_gestionar_proveedorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -493,17 +547,20 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenu_gestionar_categoria;
     private javax.swing.JMenuItem jMenu_gestionar_cliente;
     private javax.swing.JMenuItem jMenu_gestionar_producto;
+    private javax.swing.JMenuItem jMenu_gestionar_proveedor;
     private javax.swing.JMenuItem jMenu_gestionar_usuario;
     private javax.swing.JMenuItem jMenu_gestionar_venta;
     private javax.swing.JMenuItem jMenu_nueva_categoria;
     private javax.swing.JMenuItem jMenu_nueva_venta;
     private javax.swing.JMenuItem jMenu_nuevo_cliente;
     private javax.swing.JMenuItem jMenu_nuevo_producto;
+    private javax.swing.JMenuItem jMenu_nuevo_proveedor;
     private javax.swing.JMenuItem jMenu_nuevo_usuario;
     private javax.swing.JMenuItem jMenu_reporte_categorias;
     private javax.swing.JMenuItem jMenu_reporte_clientes;
     private javax.swing.JMenuItem jMenu_reporte_productos;
     private javax.swing.JMenuItem jMenu_reporte_ventas;
     private javax.swing.JMenuItem jMenu_ver_historial;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

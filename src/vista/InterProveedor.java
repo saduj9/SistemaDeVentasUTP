@@ -4,23 +4,23 @@
  */
 package vista;
 
-import controlador.Ctrl_Cliente;
+import controlador.Ctrl_Proveedor;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JOptionPane;
-import modelo.Cliente;
+import modelo.Proveedor;
 
 /**
  *
  * @author saduj
  */
-public class InterCliente extends javax.swing.JInternalFrame {
+public class InterProveedor extends javax.swing.JInternalFrame {
 
-    public InterCliente() {
+    public InterProveedor() {
         initComponents();
 
         this.setSize(new Dimension(400, 300));
-        this.setTitle("Nuevo Cliente");
+        this.setTitle("Nuevo Proveedor");
 
     }
 
@@ -39,9 +39,9 @@ public class InterCliente extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txt_nombre = new javax.swing.JTextField();
-        txt_apellido = new javax.swing.JTextField();
-        txt_dni = new javax.swing.JTextField();
+        txt_razonSocial = new javax.swing.JTextField();
+        txt_ruc = new javax.swing.JTextField();
+        txt_email = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
         txt_direccion = new javax.swing.JTextField();
         jButton_guardar = new javax.swing.JButton();
@@ -53,27 +53,28 @@ public class InterCliente extends javax.swing.JInternalFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Registrar Cliente");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, -1, -1));
+        jLabel1.setText("Registrar Proveedor");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText("Apellido:");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+        jLabel2.setText("ruc:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(89, 80, -1, -1));
+        jLabel2.getAccessibleContext().setAccessibleDescription("");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel3.setText("Nombre:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
+        jLabel3.setText("Razon  Social:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 50, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel4.setText("DNI:");
+        jLabel4.setText("Email:");
         jLabel4.setToolTipText("");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(75, 110, -1, 20));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -87,14 +88,14 @@ public class InterCliente extends javax.swing.JInternalFrame {
         jLabel6.setText("Dirección:");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
+        txt_razonSocial.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        getContentPane().add(txt_razonSocial, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
 
-        txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        getContentPane().add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
+        txt_ruc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        getContentPane().add(txt_ruc, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
 
-        txt_dni.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        getContentPane().add(txt_dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
+        txt_email.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        getContentPane().add(txt_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, -1));
@@ -121,67 +122,67 @@ public class InterCliente extends javax.swing.JInternalFrame {
 
     private void jButton_guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_guardarActionPerformed
 
-        Cliente cliente = new Cliente();
-        Ctrl_Cliente controlCliente = new Ctrl_Cliente();
-        String nombre_cliente=txt_nombre.getText().trim();
-        String apellido_cliente=txt_apellido.getText().trim();
-        String dni= txt_dni.getText().trim();
-        String telefono_cliente= txt_telefono.getText().trim();
-        String direccion_cliente= txt_direccion.getText().trim();
+        Proveedor proveedor = new Proveedor();
+        Ctrl_Proveedor controlProveedor = new Ctrl_Proveedor();
+        String razon_social=txt_razonSocial.getText().trim();
+        String ruc=txt_ruc.getText().trim();
+        String email= txt_email.getText().trim();
+        String telefono= txt_telefono.getText().trim();
+        String direccion= txt_direccion.getText().trim();
         
-        if (!txt_nombre.getText().isEmpty() && !txt_apellido.getText().isEmpty() && !txt_dni.getText().isEmpty()) {
+        if (!txt_razonSocial.getText().isEmpty() && !txt_ruc.getText().isEmpty() && !txt_email.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "Correcto");
-            if (!controlCliente.existeCliente(txt_dni.getText().trim())) {
+            if (!controlProveedor.existeProveedor(txt_ruc.getText().trim())) {
                 
-                cliente.setNombre_cliente(txt_nombre.getText().trim());
-                cliente.setApellido_cliente(txt_apellido.getText().trim());
-                if(validarCampo(dni, 8)){
-                cliente.setDni_cliente(dni); 
+                proveedor.setRazon_social(txt_razonSocial.getText().trim());
+                proveedor.setEmail(txt_email.getText().trim());
+                if(validarCampo(ruc, 11)){
+                proveedor.setRuc(ruc); 
                 
-                if(validarCampo(telefono_cliente, 9)){
-                cliente.setTelefono_cliente(telefono_cliente);
-                cliente.setDireccion_cliente(txt_direccion.getText().trim());
-                cliente.setEstado(1);
+                if(validarCampo(telefono, 9)){
+                proveedor.setTelefono(telefono);
+                proveedor.setDireccion(txt_direccion.getText().trim());
+                proveedor.setEstado(1);
 
-                if (controlCliente.guardar(cliente)) {
-                    JOptionPane.showMessageDialog(null, "Registro guardado");
-                    this.Limpiar();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al guardar");
-                }
+                    if (controlProveedor.guardar(proveedor)) {
+                        JOptionPane.showMessageDialog(null, "Registro guardado");
+                        this.Limpiar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al guardar");
+                    }
                 
                 }else{
                     JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
                     this.Limpiar();
-                    txt_nombre.setText(nombre_cliente);
-                    txt_apellido.setText(apellido_cliente);
-                    txt_dni.setText(dni);
-                    txt_direccion.setText(direccion_cliente);
+                    txt_razonSocial.setText(razon_social);
+                    txt_ruc.setText(ruc);
+                    txt_email.setText(email);
+                    txt_direccion.setText(direccion);
                     txt_telefono.setBackground(Color.red);
                 }
                 /*Juan-----------------------------------------------------*/
                 }else{
-                    JOptionPane.showMessageDialog(null, "El campo DNI esta incorrecto");
+                    JOptionPane.showMessageDialog(null, "El campo RUC esta incorrecto");
                     this.Limpiar();
-                    txt_nombre.setText(nombre_cliente);
-                    txt_apellido.setText(apellido_cliente);
-                    txt_telefono.setText(telefono_cliente);
-                    txt_direccion.setText(direccion_cliente);
-                    txt_dni.setBackground(Color.red);
+                    txt_razonSocial.setText(razon_social);
+                    txt_email.setText(email);
+                    txt_telefono.setText(telefono);
+                    txt_direccion.setText(direccion);
+                    txt_ruc.setBackground(Color.red);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "El cliente ya se encuentra registrado");
-                txt_nombre.setBackground(Color.white);
-                txt_apellido.setBackground(Color.white);
-                txt_dni.setBackground(Color.white);
+                JOptionPane.showMessageDialog(null, "El proveedor ya se encuentra registrado");
+                txt_razonSocial.setBackground(Color.white);
+                txt_ruc.setBackground(Color.white);
+                txt_email.setBackground(Color.white);
                 txt_telefono.setBackground(Color.white);
                 txt_direccion.setBackground(Color.white);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Completa todos los campos");
-            txt_nombre.setBackground(Color.red);
-            txt_apellido.setBackground(Color.red);
-            txt_dni.setBackground(Color.red);
+            txt_razonSocial.setBackground(Color.red);
+            txt_ruc.setBackground(Color.red);
+            txt_email.setBackground(Color.red);
             txt_telefono.setBackground(Color.red);
             txt_direccion.setBackground(Color.red);
         }
@@ -199,24 +200,24 @@ public class InterCliente extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel_wallpaper;
-    private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_direccion;
-    private javax.swing.JTextField txt_dni;
-    private javax.swing.JTextField txt_nombre;
+    private javax.swing.JTextField txt_email;
+    private javax.swing.JTextField txt_razonSocial;
+    private javax.swing.JTextField txt_ruc;
     private javax.swing.JTextField txt_telefono;
     // End of variables declaration//GEN-END:variables
     /**
      * limpiar campos
      */
     private void Limpiar() {
-        txt_nombre.setText("");
-        txt_apellido.setText("");
-        txt_dni.setText("");
+        txt_razonSocial.setText("");
+        txt_ruc.setText("");
+        txt_email.setText("");
         txt_telefono.setText("");
         txt_direccion.setText("");
-        txt_nombre.setBackground(Color.white);
-        txt_apellido.setBackground(Color.white);
-        txt_dni.setBackground(Color.white);
+        txt_razonSocial.setBackground(Color.white);
+        txt_ruc.setBackground(Color.white);
+        txt_email.setBackground(Color.white);
         txt_telefono.setBackground(Color.white);
         txt_direccion.setBackground(Color.white);
     }
