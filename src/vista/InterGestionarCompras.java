@@ -308,7 +308,7 @@ public class InterGestionarCompras extends javax.swing.JInternalFrame {
                 txt_orden_compra.setText(rs.getString("orden_compra"));
                 txt_fecha.setText(rs.getString("fecha_compra"));
                 String estado = rs.getString("estado_pago");
-                if (estado == "X") {
+                if (estado.equals("X")) {
                     jComboBox_estado_pago.setSelectedItem("Pendiente de pago");
                 } else {
                     jComboBox_estado_pago.setSelectedItem("Pagado");

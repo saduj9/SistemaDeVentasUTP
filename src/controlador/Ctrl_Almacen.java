@@ -6,6 +6,7 @@ package controlador;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import modelo.Almacen;
 
@@ -43,12 +44,10 @@ public class Ctrl_Almacen {
         boolean respuesta = false;
         Connection cn = conexion.Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("update tb_almacen set idCabeceraCompra=?, idProducto=?, sku=?, stock=?, ubicacion=?  where idAlmacen='" + idAlmacen +"'");
-            consulta.setInt(1, objeto.getIdCabeceraCompra());
-            consulta.setInt(2, objeto.getIdProducto());
-            consulta.setString(3, objeto.getSku());
-            consulta.setInt(4, objeto.getStock());
-            consulta.setString(5, objeto.getUbicacion());
+            PreparedStatement consulta = cn.prepareStatement("update tb_almacen set  sku=?, stock=?, ubicacion=?  where idAlmacen='" + idAlmacen +"'");
+            consulta.setString(1, objeto.getSku());
+            consulta.setInt(2, objeto.getStock());
+            consulta.setString(3, objeto.getUbicacion());
       
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
@@ -74,5 +73,22 @@ public class Ctrl_Almacen {
             System.out.println("Error al eliminar el producto del almacen" + e);
         }
         return respuesta;
+    }
+    
+    public String obtenerSku(int idProducto){
+        String sku = "";
+        Connection cn = conexion.Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("select a.sku, p.nombre_producto from tb_almacen a, tb_producto p where p.idProducto =  a.idProducto and a.idProducto = '"+idProducto +"' Limit 1");
+            
+            ResultSet rs = consulta.executeQuery();
+            if (rs.next()) {
+                sku = rs.getString("sku");
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al obtener sku" + e);
+        }
+        return sku;
     }
 }

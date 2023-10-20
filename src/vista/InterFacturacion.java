@@ -492,7 +492,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                 if (controlVenta.guardar(cabeceraVenta)) {
                     JOptionPane.showMessageDialog(null, "¡Venta Registrada!");
                     this.ObtenerUltimoId();
-
+                    
                     String tipo = "Factura: 00" + ultimoId;
                     //Generar la factura de venta
                     VentaPDF pdf = new VentaPDF();

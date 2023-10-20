@@ -4,6 +4,7 @@ import conexion.Conexion;
 import controlador.Ctrl_Almacen;
 import controlador.Ctrl_Empleado;
 import controlador.Ctrl_RegistrarCompra;
+import java.awt.Color;
 import java.awt.Dimension;
 import static java.awt.image.ImageObserver.WIDTH;
 import java.sql.Connection;
@@ -150,8 +151,8 @@ public class InterCompras extends javax.swing.JInternalFrame {
         txt_descuento = new javax.swing.JTextField();
         txt_igv = new javax.swing.JTextField();
         txt_total_pagar = new javax.swing.JTextField();
-        jButton_RegistrarVenta = new javax.swing.JButton();
-        jButton_RegistrarVenta1 = new javax.swing.JButton();
+        jButton_RegistrarCompra = new javax.swing.JButton();
+        jButton_RegistrarCompra2 = new javax.swing.JButton();
         jLabel_wallpaper = new javax.swing.JLabel();
 
         setClosable(true);
@@ -315,30 +316,30 @@ public class InterCompras extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 400, 380, 140));
 
-        jButton_RegistrarVenta.setBackground(new java.awt.Color(51, 255, 255));
-        jButton_RegistrarVenta.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton_RegistrarVenta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/impresora.png"))); // NOI18N
-        jButton_RegistrarVenta.setText("Registrar Compra");
-        jButton_RegistrarVenta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton_RegistrarVenta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton_RegistrarVenta.addActionListener(new java.awt.event.ActionListener() {
+        jButton_RegistrarCompra.setBackground(new java.awt.Color(51, 255, 255));
+        jButton_RegistrarCompra.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton_RegistrarCompra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/impresora.png"))); // NOI18N
+        jButton_RegistrarCompra.setText("Registrar Compra");
+        jButton_RegistrarCompra.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_RegistrarCompra.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton_RegistrarCompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_RegistrarVentaActionPerformed(evt);
+                jButton_RegistrarCompraActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_RegistrarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, 170, 100));
+        getContentPane().add(jButton_RegistrarCompra, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 430, 170, 100));
 
-        jButton_RegistrarVenta1.setBackground(new java.awt.Color(51, 255, 255));
-        jButton_RegistrarVenta1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton_RegistrarVenta1.setText("<html><center>Registrar Compra y guardar almacen<html>");
-        jButton_RegistrarVenta1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton_RegistrarVenta1.setPreferredSize(new java.awt.Dimension(255, 22));
-        jButton_RegistrarVenta1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_RegistrarCompra2.setBackground(new java.awt.Color(51, 255, 255));
+        jButton_RegistrarCompra2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton_RegistrarCompra2.setText("<html><center>Registrar Compra y guardar almacen<html>");
+        jButton_RegistrarCompra2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton_RegistrarCompra2.setPreferredSize(new java.awt.Dimension(255, 22));
+        jButton_RegistrarCompra2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_RegistrarVenta1ActionPerformed(evt);
+                jButton_RegistrarCompra2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton_RegistrarVenta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 160, 100));
+        getContentPane().add(jButton_RegistrarCompra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 160, 100));
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 790, 570));
 
         pack();
@@ -386,36 +387,36 @@ public class InterCompras extends javax.swing.JInternalFrame {
                         //validar que la cantidad de productos seleccionado no sea mayor al stock de la base de datos
                         /*if (cantidad <= cantidadProductoBBDD) {*/
 
-                            subtotal = precioUnitario * cantidad;
-                            totalPagar = subtotal + igv + descuento;
+                        subtotal = precioUnitario * cantidad;
+                        totalPagar = subtotal + igv + descuento;
 
-                            //redondear decimales
-                            subtotal = (double) Math.round(subtotal * 100) / 100;
-                            igv = (double) Math.round(igv * 100) / 100;
-                            descuento = (double) Math.round(descuento * 100) / 100;
-                            totalPagar = (double) Math.round(totalPagar * 100) / 100;
+                        //redondear decimales
+                        subtotal = (double) Math.round(subtotal * 100) / 100;
+                        igv = (double) Math.round(igv * 100) / 100;
+                        descuento = (double) Math.round(descuento * 100) / 100;
+                        totalPagar = (double) Math.round(totalPagar * 100) / 100;
 
-                            //se crea un nuevo producto
-                            producto = new DetalleCompra(auxIdDetalle,//idDetalleCompra
-                                    1, //idCabecera
-                                    idProducto,
-                                    nombre,
-                                    Integer.parseInt(txt_cantidad.getText()),
-                                    precioUnitario,
-                                    subtotal,
-                                    descuento,
-                                    igv,
-                                    totalPagar,
-                                    1//estado
-                            );
-                            //añadir a la lista
-                            listaProductos.add(producto);
-                            JOptionPane.showMessageDialog(null, "Producto Agregado");
-                            auxIdDetalle++;
-                            txt_cantidad.setText("");//limpiar el campo
-                            //volver a cargar combo productos
-                            this.CargarComboProductos();
-                            this.CalcularTotalPagar();
+                        //se crea un nuevo producto
+                        producto = new DetalleCompra(auxIdDetalle,//idDetalleCompra
+                                1, //idCabecera
+                                idProducto,
+                                nombre,
+                                Integer.parseInt(txt_cantidad.getText()),
+                                precioUnitario,
+                                subtotal,
+                                descuento,
+                                igv,
+                                totalPagar,
+                                1//estado
+                        );
+                        //añadir a la lista
+                        listaProductos.add(producto);
+                        JOptionPane.showMessageDialog(null, "Producto Agregado");
+                        auxIdDetalle++;
+                        txt_cantidad.setText("");//limpiar el campo
+                        //volver a cargar combo productos
+                        this.CargarComboProductos();
+                        this.CalcularTotalPagar();
                         /*} else {
                             JOptionPane.showMessageDialog(null, "La cantidad supera el Stock");
                         }*/
@@ -455,8 +456,93 @@ public class InterCompras extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTable_productosMouseClicked
 
-    private void jButton_RegistrarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarVentaActionPerformed
+    private void jButton_RegistrarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarCompraActionPerformed
 
+        CabeceraCompra cabeceraCompra = new CabeceraCompra();
+        DetalleCompra detalleCompra = new DetalleCompra();
+        Ctrl_RegistrarCompra controlCompra = new Ctrl_RegistrarCompra();
+        Ctrl_Empleado controlEmpleado = new Ctrl_Empleado();
+        int idUsuarioLog = controlEmpleado.idUsuarioLogeado;
+        String tipoDoc = jComboBox_tipo_documento.getSelectedItem().toString().equals("Factura") ? "F" : "B";
+        String estadoPago = jComboBox_estado_pago.getSelectedItem().toString().equals("Pendiente de pago") ? "X" : "P";
+        System.out.println("Error al Iniciar Sesion" + idUsuarioLog);
+        String fechaActual = "";
+        Date date = new Date();
+        fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(date);
+
+        if (!jComboBox_proveedor.getSelectedItem().equals("Seleccione proveedor:")) {
+            if (listaProductos.size() > 0) {
+                if (txt_orden_compra.getText().equals("") || txt_numero_documento.getText().equals("")) {
+                    this.ObtenerIdProveedor();
+                    //registrar cabecera
+                    cabeceraCompra.setIdCabeceraCompra(0);
+                    cabeceraCompra.setIdProveedor(idProveedor);
+                    cabeceraCompra.setIdEmpleado(idUsuarioLog);
+                    cabeceraCompra.setValorCompra(Double.parseDouble(txt_total_pagar.getText()));
+                    cabeceraCompra.setOrdenCompra(txt_orden_compra.getText());
+                    cabeceraCompra.setTipoDocumento(tipoDoc);
+                    cabeceraCompra.setNumeroDocumento(txt_numero_documento.getText());
+                    cabeceraCompra.setFechaCompra(fechaActual);
+                    cabeceraCompra.setEstadoPago(estadoPago);
+                    cabeceraCompra.setEstado(1);
+
+                    if (controlCompra.guardar(cabeceraCompra)) {
+                        JOptionPane.showMessageDialog(null, "¡Compra Registrada!");
+                        this.ObtenerUltimoId();
+
+                        //guardar detalle
+                        for (DetalleCompra elemento : listaProductos) {
+                            detalleCompra.setIdDetalleCompra(0);
+                            detalleCompra.setIdCabeceraCompra(0);
+                            detalleCompra.setIdProducto(elemento.getIdProducto());
+                            detalleCompra.setCantidad(elemento.getCantidad());
+                            detalleCompra.setPrecioUnitario(elemento.getPrecioUnitario());
+                            detalleCompra.setSubTotal(elemento.getSubTotal());
+                            detalleCompra.setDescuento(elemento.getDescuento());
+                            detalleCompra.setIgv(elemento.getIgv());
+                            detalleCompra.setTotalPagar(elemento.getTotalPagar());
+                            detalleCompra.setEstado(1);
+
+                            if (controlCompra.guardarDetalle(detalleCompra)) {
+                                //System.out.println("Detalle de Venta Registrado");
+
+                                txt_subtotal.setText("0.0");
+                                txt_igv.setText("0.0");
+                                txt_descuento.setText("0.0");
+                                txt_total_pagar.setText("0.0");
+                                auxIdDetalle = 1;
+
+                                this.CargarComboProveedor();
+                                //this.GuardarProductosDirectoAlmacen(ultimoId,elemento.getIdProducto(), elemento.getCantidad());                       
+
+                            } else {
+                                JOptionPane.showMessageDialog(null, "¡Error al guardar detalle de compra!");
+                            }
+                        }
+                        //vaciamos la lista
+                        txt_orden_compra.setText("");
+                        txt_numero_documento.setText("");
+                        listaProductos.clear();
+                        listaTablaProductos();
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "¡Error al guardar cabecera de compra!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Complete todos los campos");
+                    txt_orden_compra.setBackground(Color.red);
+                    txt_numero_documento.setBackground(Color.red);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(null, "¡Seleccione un producto!");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "¡Seleccione un proveedor!");
+        }
+    }//GEN-LAST:event_jButton_RegistrarCompraActionPerformed
+
+    private void jButton_RegistrarCompra2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarCompra2ActionPerformed
         CabeceraCompra cabeceraCompra = new CabeceraCompra();
         DetalleCompra detalleCompra = new DetalleCompra();
         Ctrl_RegistrarCompra controlCompra = new Ctrl_RegistrarCompra();
@@ -513,7 +599,7 @@ public class InterCompras extends javax.swing.JInternalFrame {
                             auxIdDetalle = 1;
 
                             this.CargarComboProveedor();
-                            //this.GuardarProductosDirectoAlmacen(ultimoId,elemento.getIdProducto(), elemento.getCantidad());                       
+                            this.GuardarProductosDirectoAlmacen(ultimoId, elemento.getIdProducto(), elemento.getCantidad());
 
                         } else {
                             JOptionPane.showMessageDialog(null, "¡Error al guardar detalle de compra!");
@@ -534,92 +620,12 @@ public class InterCompras extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "¡Seleccione un proveedor!");
         }
-    }//GEN-LAST:event_jButton_RegistrarVentaActionPerformed
-
-    private void jButton_RegistrarVenta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_RegistrarVenta1ActionPerformed
-        CabeceraCompra cabeceraCompra = new CabeceraCompra();
-        DetalleCompra detalleCompra = new DetalleCompra();
-        Ctrl_RegistrarCompra controlCompra = new Ctrl_RegistrarCompra();
-        Ctrl_Empleado controlEmpleado = new Ctrl_Empleado();
-        int idUsuarioLog = controlEmpleado.idUsuarioLogeado;
-        String tipoDoc = jComboBox_tipo_documento.getSelectedItem().toString() == "Factura" ? "F" : "B";
-        String estadoPago = jComboBox_estado_pago.getSelectedItem().toString() == "Pendiente de pago" ? "X" : "P";
-        System.out.println("Error al Iniciar Sesion" + idUsuarioLog);
-        String fechaActual = "";
-        Date date = new Date();
-        fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(date);
-
-        if (!jComboBox_proveedor.getSelectedItem().equals("Seleccione proveedor:")) {
-            if (listaProductos.size() > 0) {
-
-                //metodo para obtener el id del cliente
-                this.ObtenerIdProveedor();
-                //registrar cabecera
-                cabeceraCompra.setIdCabeceraCompra(0);
-                cabeceraCompra.setIdProveedor(idProveedor);
-                cabeceraCompra.setIdEmpleado(idUsuarioLog);
-                cabeceraCompra.setValorCompra(Double.parseDouble(txt_total_pagar.getText()));
-                cabeceraCompra.setOrdenCompra(txt_orden_compra.getText());
-                cabeceraCompra.setTipoDocumento(tipoDoc);
-                cabeceraCompra.setNumeroDocumento(txt_numero_documento.getText());
-                cabeceraCompra.setFechaCompra(fechaActual);
-                cabeceraCompra.setEstadoPago(estadoPago);
-                cabeceraCompra.setEstado(1);
-
-                if (controlCompra.guardar(cabeceraCompra)) {
-                    JOptionPane.showMessageDialog(null, "¡Compra Registrada!");
-                    this.ObtenerUltimoId();
-
-                    //guardar detalle
-                    for (DetalleCompra elemento : listaProductos) {
-                        detalleCompra.setIdDetalleCompra(0);
-                        detalleCompra.setIdCabeceraCompra(0);
-                        detalleCompra.setIdProducto(elemento.getIdProducto());
-                        detalleCompra.setCantidad(elemento.getCantidad());
-                        detalleCompra.setPrecioUnitario(elemento.getPrecioUnitario());
-                        detalleCompra.setSubTotal(elemento.getSubTotal());
-                        detalleCompra.setDescuento(elemento.getDescuento());
-                        detalleCompra.setIgv(elemento.getIgv());
-                        detalleCompra.setTotalPagar(elemento.getTotalPagar());
-                        detalleCompra.setEstado(1);
-
-                        if (controlCompra.guardarDetalle(detalleCompra)) {
-                            //System.out.println("Detalle de Venta Registrado");
-
-                            txt_subtotal.setText("0.0");
-                            txt_igv.setText("0.0");
-                            txt_descuento.setText("0.0");
-                            txt_total_pagar.setText("0.0");
-                            auxIdDetalle = 1;
-
-                            this.CargarComboProveedor();
-                            this.GuardarProductosDirectoAlmacen(ultimoId,elemento.getIdProducto(), elemento.getCantidad());                       
-
-                        } else {
-                            JOptionPane.showMessageDialog(null, "¡Error al guardar detalle de compra!");
-                        }
-                    }
-                    //vaciamos la lista
-                    txt_orden_compra.setText("");
-                    txt_numero_documento.setText("");
-                    listaProductos.clear();
-                    listaTablaProductos();
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "¡Error al guardar cabecera de compra!");
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "¡Seleccione un producto!");
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "¡Seleccione un proveedor!");
-        }
-    }//GEN-LAST:event_jButton_RegistrarVenta1ActionPerformed
+    }//GEN-LAST:event_jButton_RegistrarCompra2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_RegistrarVenta;
-    private javax.swing.JButton jButton_RegistrarVenta1;
+    private javax.swing.JButton jButton_RegistrarCompra;
+    private javax.swing.JButton jButton_RegistrarCompra2;
     private javax.swing.JButton jButton_añadir_producto;
     private javax.swing.JButton jButton_busca_proveedor;
     private javax.swing.JComboBox<String> jComboBox_estado_pago;
@@ -675,7 +681,7 @@ public class InterCompras extends javax.swing.JInternalFrame {
      */
     private void CargarComboProductos() {
         Connection cn = Conexion.conectar();
-        String sql = "select * from tb_producto where estado = 1";
+        String sql = "select * from tb_producto";
         Statement st;
         try {
             st = cn.createStatement();
@@ -803,30 +809,30 @@ public class InterCompras extends javax.swing.JInternalFrame {
         }
     }
 
-    public static final String uuid() {
-        String result = java.util.UUID.randomUUID().toString();
-
-        result.replaceAll("-", "");
-        result.substring(0, 10);
-
-        return result;
+    public int getFiveDigitsNumber() {
+        double fiveDigits = 10000 + Math.random() * 90000;
+        return (int) fiveDigits;
     }
 
     //metodo para restar la cantidad (stock) de los productos vendidos
     private void GuardarProductosDirectoAlmacen(int idCabeceraCompra, int idProducto, int cantidad) {
-        String sku = "MAPU"+uuid();
+        String sku = "MAPU" + getFiveDigitsNumber();
         Almacen almacen = new Almacen();
         Ctrl_Almacen controlAlmacen = new Ctrl_Almacen();
         almacen.setIdAlmacen(0);
         almacen.setIdCabeceraCompra(idCabeceraCompra);
         almacen.setIdProducto(idProducto);
-        almacen.setSku(sku);
+        if (controlAlmacen.obtenerSku(idProducto).equals("") || controlAlmacen.obtenerSku(idProducto) == null) {
+            almacen.setSku(sku);
+        } else {
+            sku = controlAlmacen.obtenerSku(idProducto);
+            almacen.setSku(sku);
+        }
         almacen.setStock(cantidad);
         almacen.setUbicacion("A-001");
         almacen.setEstado(1);
         controlAlmacen.guardar(almacen);
     }
-
 
     private void ObtenerUltimoId() {
         try {
