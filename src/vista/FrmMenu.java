@@ -91,6 +91,8 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenu_nueva_venta = new javax.swing.JMenuItem();
         jMenu_gestionar_venta = new javax.swing.JMenuItem();
+        jMenu_nueva_compra = new javax.swing.JMenuItem();
+        jMenu_gestionar_compra = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenu_reporte_clientes = new javax.swing.JMenuItem();
         jMenu_reporte_categorias = new javax.swing.JMenuItem();
@@ -267,7 +269,8 @@ public class FrmMenu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carrito.png"))); // NOI18N
-        jMenu5.setText("Facturar");
+        jMenu5.setText("Facturación");
+        jMenu5.setToolTipText("");
         jMenu5.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jMenu5.setPreferredSize(new java.awt.Dimension(150, 50));
 
@@ -292,6 +295,29 @@ public class FrmMenu extends javax.swing.JFrame {
             }
         });
         jMenu5.add(jMenu_gestionar_venta);
+
+        jMenu_nueva_compra.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu_nueva_compra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/anadir.png"))); // NOI18N
+        jMenu_nueva_compra.setText("Nueva Compra");
+        jMenu_nueva_compra.setPreferredSize(new java.awt.Dimension(180, 30));
+        jMenu_nueva_compra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu_nueva_compraActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenu_nueva_compra);
+
+        jMenu_gestionar_compra.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jMenu_gestionar_compra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/configuraciones.png"))); // NOI18N
+        jMenu_gestionar_compra.setText("Gestionar Compra");
+        jMenu_gestionar_compra.setToolTipText("");
+        jMenu_gestionar_compra.setPreferredSize(new java.awt.Dimension(180, 30));
+        jMenu_gestionar_compra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu_gestionar_compraActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenu_gestionar_compra);
 
         jMenuBar1.add(jMenu5);
 
@@ -409,7 +435,9 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu_nuevo_usuarioActionPerformed
 
     private void jMenu_gestionar_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_gestionar_ventaActionPerformed
-
+        InterGestionarVentas interGestionarVentas = new InterGestionarVentas();
+        jDesktopPane_menu.add(interGestionarVentas);
+        interGestionarVentas.setVisible(true);
     }//GEN-LAST:event_jMenu_gestionar_ventaActionPerformed
 
     private void jMenu_reporte_categoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_reporte_categoriasActionPerformed
@@ -417,12 +445,15 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu_reporte_categoriasActionPerformed
 
     private void jMenu_nueva_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_nueva_categoriaActionPerformed
-
-
+        InterCategoria interCategoria = new InterCategoria();
+        jDesktopPane_menu.add(interCategoria);
+        interCategoria.setVisible(true);
     }//GEN-LAST:event_jMenu_nueva_categoriaActionPerformed
 
     private void jMenu_gestionar_categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_gestionar_categoriaActionPerformed
-     
+        InterGestionarCategoria interGestionarCategoria = new InterGestionarCategoria();
+        jDesktopPane_menu.add(interGestionarCategoria);
+        interGestionarCategoria.setVisible(true);
     }//GEN-LAST:event_jMenu_gestionar_categoriaActionPerformed
 
     private void jMenu_nuevo_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_nuevo_productoActionPerformed
@@ -464,7 +495,9 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu_gestionar_usuarioActionPerformed
 
     private void jMenu_nueva_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_nueva_ventaActionPerformed
-      
+        InterFacturacion interFacturacion = new InterFacturacion();
+        jDesktopPane_menu.add(interFacturacion);
+        interFacturacion.setVisible(true);
     }//GEN-LAST:event_jMenu_nueva_ventaActionPerformed
 
     private void jMenu_reporte_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_reporte_clientesActionPerformed
@@ -495,6 +528,18 @@ public class FrmMenu extends javax.swing.JFrame {
         jDesktopPane_menu.add(interGestionarProveedor);
         interGestionarProveedor.setVisible(true);
     }//GEN-LAST:event_jMenu_gestionar_proveedorActionPerformed
+
+    private void jMenu_nueva_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_nueva_compraActionPerformed
+        InterCompras interCompras = new InterCompras();
+        jDesktopPane_menu.add(interCompras);
+        interCompras.setVisible(true);
+    }//GEN-LAST:event_jMenu_nueva_compraActionPerformed
+
+    private void jMenu_gestionar_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_gestionar_compraActionPerformed
+        InterGestionarCompras interGestionarCompras = new InterGestionarCompras();
+        jDesktopPane_menu.add(interGestionarCompras);
+        interGestionarCompras.setVisible(true);
+    }//GEN-LAST:event_jMenu_gestionar_compraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -546,11 +591,13 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenu_cerrar_sesion;
     private javax.swing.JMenuItem jMenu_gestionar_categoria;
     private javax.swing.JMenuItem jMenu_gestionar_cliente;
+    private javax.swing.JMenuItem jMenu_gestionar_compra;
     private javax.swing.JMenuItem jMenu_gestionar_producto;
     private javax.swing.JMenuItem jMenu_gestionar_proveedor;
     private javax.swing.JMenuItem jMenu_gestionar_usuario;
     private javax.swing.JMenuItem jMenu_gestionar_venta;
     private javax.swing.JMenuItem jMenu_nueva_categoria;
+    private javax.swing.JMenuItem jMenu_nueva_compra;
     private javax.swing.JMenuItem jMenu_nueva_venta;
     private javax.swing.JMenuItem jMenu_nuevo_cliente;
     private javax.swing.JMenuItem jMenu_nuevo_producto;

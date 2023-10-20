@@ -96,4 +96,25 @@ public class Ctrl_Proveedor {
         return respuesta;
     }
     
+    public int obtenerIdProveedor(String proveedor){
+        int  idProveedor = 0;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+     
+            PreparedStatement pst = cn.prepareStatement(
+                "select idProveedor, concat(ruc, '-', razon_social) as proveedor "
+                + "from tb_proveedor where concat(ruc, '-', razon_social) = '" + proveedor + "'");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                idProveedor = rs.getInt("idProveedor");
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error en cargar el idproveedor: " + e);
+        }
+        return idProveedor;
+    }
+    
+    
+    
 }
