@@ -12,6 +12,8 @@ import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import modelo.Almacen;
 
@@ -137,6 +139,9 @@ public class InterAlmacen extends javax.swing.JInternalFrame {
         String producto = "";
         producto = jComboBox_producto.getSelectedItem().toString().trim();
         orden = jComboBox_orden_compra.getSelectedItem().toString().trim();
+        String fechaActual = "";
+        Date date = new Date();
+        fechaActual = new SimpleDateFormat("yyyy/MM/dd").format(date);
 
         if (jComboBox_ubicacion.getSelectedItem().toString().equals("Seleccione ubicación:") || txt_cantidad.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Complete todos los campos o seleccione ubicación");
@@ -163,6 +168,7 @@ public class InterAlmacen extends javax.swing.JInternalFrame {
                         }
                         almacen.setStock(Integer.parseInt(txt_cantidad.getText().trim()));
                         almacen.setUbicacion(jComboBox_ubicacion.getSelectedItem().toString().trim());
+                        almacen.setFechaIngreso(fechaActual);
                         almacen.setEstado(1);
 
                         if (controlAlmacen.guardar(almacen)) {

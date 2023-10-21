@@ -34,7 +34,7 @@ public class InterGestionarAlmacen extends javax.swing.JInternalFrame {
     public InterGestionarAlmacen() {
         initComponents();
         this.setSize(new Dimension(900, 500));
-        this.setTitle("Gestionar Compras");
+        this.setTitle("Gestionar Productos de almacén");
         //Cargar tabla
    
         this.CargarTablaAlmacen();
