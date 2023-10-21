@@ -27,7 +27,7 @@ public class Ctrl_Empleado {
 
         Connection cn = Conexion.conectar();
         String sql = "select usuario, contraseña ,nombreRol, idEmpleado from tb_empleado inner join tb_rol on tb_rol.idRol =tb_empleado.idRol"
-                + " where tb_empleado.usuario = '"+ objeto.getUsuario() +"' and tb_empleado.contraseña = '"+ objeto.getContraseña()+"' and tb_empleado.estado = 1 and tb_rol.idRol=1";
+                + " where tb_empleado.usuario = '"+ objeto.getUsuario() +"' and tb_empleado.contraseña = '"+ objeto.getContraseña()+"' and tb_empleado.estado = 1";
         Statement st;
         try {
 
@@ -129,6 +129,23 @@ public class Ctrl_Empleado {
             cn.close();
         } catch (SQLException e) {
             System.out.println("Error al eliminar empleado: " + e);
+        }
+        return respuesta;
+    }
+    
+    public boolean restaurar(int idEmpleado) {
+        boolean respuesta = false;
+        Connection cn = Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("update tb_empleado set estado='1' where idEmpleado='" + idEmpleado +"'");
+            consulta.executeUpdate();
+
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar empleado: " + e);
         }
         return respuesta;
     }

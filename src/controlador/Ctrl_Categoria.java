@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import javax.swing.JComboBox;
 import modelo.Categoria;
 
 /**
@@ -93,6 +94,23 @@ public class Ctrl_Categoria {
         return respuesta;
     }
     
+    //metodo para restaurar categoria
+    public boolean restaurar(int idCategoria) {
+        boolean respuesta = false;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("update tb_categoria set estado='1' where idCategoria='" + idCategoria +"'");
+
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar la categoría" + e);
+        }
+        return respuesta;
+    }
+    
     //metodo para verificar categoria existente con producto
     public boolean existeProductoporCategoría(int categoria) {
         boolean respuesta = false;
@@ -110,5 +128,29 @@ public class Ctrl_Categoria {
             System.out.println("Error al consultar la categoría" + e);
         }
         return respuesta;
+    }
+    public void llenarComboBox(JComboBox<Categoria> comboRol){
+        String sql = "select * from tb_categoria where estado = 1;";
+        Statement st;
+        ResultSet rs;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            comboRol.removeAllItems();
+            while (rs.next()) {
+                comboRol.addItem(new Categoria(
+                        rs.getInt("idCategoria"),
+                        rs.getString("descripcion"),
+                        rs.getInt("estado")
+                ));
+            }
+            cn.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al consultar los roles" + e);
+        }
+        
     }
 }

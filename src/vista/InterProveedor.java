@@ -7,6 +7,8 @@ package vista;
 import controlador.Ctrl_Proveedor;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import modelo.Proveedor;
 
@@ -89,15 +91,30 @@ public class InterProveedor extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
         txt_razonSocial.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_razonSocial.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_razonSocialKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_razonSocial, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
 
         txt_ruc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_ruc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_rucKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_ruc, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
 
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         getContentPane().add(txt_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, -1));
 
         txt_direccion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -124,44 +141,54 @@ public class InterProveedor extends javax.swing.JInternalFrame {
 
         Proveedor proveedor = new Proveedor();
         Ctrl_Proveedor controlProveedor = new Ctrl_Proveedor();
-        String razon_social=txt_razonSocial.getText().trim();
-        String ruc=txt_ruc.getText().trim();
-        String email= txt_email.getText().trim();
-        String telefono= txt_telefono.getText().trim();
-        String direccion= txt_direccion.getText().trim();
-        
+        String razon_social = txt_razonSocial.getText().trim();
+        String ruc = txt_ruc.getText().trim();
+        String email = txt_email.getText().trim();
+        String telefono = txt_telefono.getText().trim();
+        String direccion = txt_direccion.getText().trim();
+
         if (!txt_razonSocial.getText().isEmpty() && !txt_ruc.getText().isEmpty() && !txt_email.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "Correcto");
             if (!controlProveedor.existeProveedor(txt_ruc.getText().trim())) {
-                
+
                 proveedor.setRazon_social(txt_razonSocial.getText().trim());
                 proveedor.setEmail(txt_email.getText().trim());
-                if(validarCampo(ruc, 11)){
-                proveedor.setRuc(ruc); 
-                
-                if(validarCampo(telefono, 9)){
-                proveedor.setTelefono(telefono);
-                proveedor.setDireccion(txt_direccion.getText().trim());
-                proveedor.setEstado(1);
+                if (validarCampo(ruc, 11)) {
+                    proveedor.setRuc(ruc);
 
-                    if (controlProveedor.guardar(proveedor)) {
-                        JOptionPane.showMessageDialog(null, "Registro guardado");
-                        this.Limpiar();
+                    if (validarCampo(telefono, 9)) {
+                        proveedor.setTelefono(telefono);
+                        proveedor.setDireccion(txt_direccion.getText().trim());
+                        proveedor.setEstado(1);
+                        if (validarCorreoElectronico(email) && tieneExtension(email)) {
+
+                            if (controlProveedor.guardar(proveedor)) {
+                                JOptionPane.showMessageDialog(null, "Registro guardado");
+                                this.Limpiar();
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Error al guardar");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "El campo email no es valido");
+                            this.Limpiar();
+                            txt_razonSocial.setText(razon_social);
+                            txt_ruc.setText(ruc);
+                            txt_email.setText("");
+                            txt_direccion.setText(direccion);
+                            txt_email.setBackground(Color.red);
+                            txt_telefono.setText(telefono);
+                        }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Error al guardar");
+                        JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
+                        this.Limpiar();
+                        txt_razonSocial.setText(razon_social);
+                        txt_ruc.setText(ruc);
+                        txt_email.setText(email);
+                        txt_direccion.setText(direccion);
+                        txt_telefono.setBackground(Color.red);
                     }
-                
-                }else{
-                    JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
-                    this.Limpiar();
-                    txt_razonSocial.setText(razon_social);
-                    txt_ruc.setText(ruc);
-                    txt_email.setText(email);
-                    txt_direccion.setText(direccion);
-                    txt_telefono.setBackground(Color.red);
-                }
-                /*Juan-----------------------------------------------------*/
-                }else{
+                    /*Juan-----------------------------------------------------*/
+                } else {
                     JOptionPane.showMessageDialog(null, "El campo RUC esta incorrecto");
                     this.Limpiar();
                     txt_razonSocial.setText(razon_social);
@@ -190,6 +217,46 @@ public class InterProveedor extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton_guardarActionPerformed
 
+    public static boolean validarCorreoElectronico(String correoElectronico) {
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correoElectronico);
+        return matcher.matches();
+    }
+    public static boolean tieneExtension(String correoElectronico) {
+        String regex = ".*\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correoElectronico);
+        return matcher.matches();
+    }
+
+    private void txt_razonSocialKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_razonSocialKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_razonSocial);
+    }//GEN-LAST:event_txt_razonSocialKeyPressed
+
+    private void txt_rucKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rucKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_ruc);
+    }//GEN-LAST:event_txt_rucKeyPressed
+
+    private void txt_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_telefono);
+    }//GEN-LAST:event_txt_telefonoKeyPressed
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_guardar;
@@ -230,5 +297,5 @@ public class InterProveedor extends javax.swing.JInternalFrame {
             return false;
         }
     }
-    
+
 }

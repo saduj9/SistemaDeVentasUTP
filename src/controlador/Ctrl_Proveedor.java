@@ -96,6 +96,22 @@ public class Ctrl_Proveedor {
         return respuesta;
     }
     
+    public boolean restaurar(int idProveedor) {
+        boolean respuesta = false;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("update tb_proveedor set estado='1' where idProveedor='" + idProveedor +"'");
+            
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar el proveedor" + e);
+        }
+        return respuesta;
+    }
+    
     public int obtenerIdProveedor(String proveedor){
         int  idProveedor = 0;
         Connection cn = conexion.Conexion.conectar();

@@ -59,19 +59,17 @@ public class Ctrl_Cliente {
         }
         return respuesta;
     }
-    
-     public boolean actualizar(Cliente objeto, int idCliente) {
+
+    public boolean actualizar(Cliente objeto, int idCliente) {
         boolean respuesta = false;
         Connection cn = conexion.Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set nombre_cliente=?, apellido_cliente=?, dni_cliente=?, telefono_cliente=?, direccion_cliente=? where idCliente='" + idCliente +"'");
+            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set nombre_cliente=?, apellido_cliente=?, dni_cliente=?, telefono_cliente=?, direccion_cliente=? where idCliente='" + idCliente + "'");
             consulta.setString(1, objeto.getNombre_cliente());
             consulta.setString(2, objeto.getApellido_cliente());
             consulta.setString(3, objeto.getDni_cliente());
             consulta.setString(4, objeto.getTelefono_cliente());
             consulta.setString(5, objeto.getDireccion_cliente());
-          
-            
 
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
@@ -82,15 +80,13 @@ public class Ctrl_Cliente {
         }
         return respuesta;
     }
-    
+
     //metodo para eliminar  producto
     public boolean eliminar(int idCliente) {
         boolean respuesta = false;
         Connection cn = conexion.Conexion.conectar();
         try {
-            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set estado='0' where idCliente='" + idCliente +"'");
-            
-            
+            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set estado='0' where idCliente='" + idCliente + "'");
 
             if (consulta.executeUpdate() > 0) {
                 respuesta = true;
@@ -98,6 +94,22 @@ public class Ctrl_Cliente {
             cn.close();
         } catch (SQLException e) {
             System.out.println("Error al eliminar el cliente" + e);
+        }
+        return respuesta;
+    }
+
+    //metodo para eliminar  producto
+    public boolean restaurar(int idCliente) {
+        boolean respuesta = false;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("update tb_cliente set estado='1' where idCliente='" + idCliente + "'");
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar el cliente" + e);
         }
         return respuesta;
     }

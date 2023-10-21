@@ -102,6 +102,23 @@ public class Ctrl_Producto {
         return respuesta;
     }
     
+    //metodo para restaurar  producto
+    public boolean restaurar(int idProducto) {
+        boolean respuesta = false;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("update tb_producto set estado='1' where idProducto='" + idProducto +"'");
+
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar la producto" + e);
+        }
+        return respuesta;
+    }
+    
     public boolean actualizarStock(Producto objeto, int idProducto) {
         boolean respuesta = false;
         Connection cn = conexion.Conexion.conectar();
@@ -131,6 +148,22 @@ public class Ctrl_Producto {
             cn.close();
         } catch (SQLException e) {
             System.out.println("Error al eliminar la producto" + e);
+        }
+        return respuesta;
+    }
+    
+    public boolean restaurarPorCategoria(int idCategoría) {
+        boolean respuesta = false;
+        Connection cn = conexion.Conexion.conectar();
+        try {
+            PreparedStatement consulta = cn.prepareStatement("UPDATE tb_producto SET estado = '1' WHERE idCategoria ='" + idCategoría +"' AND idProducto NOT IN (SELECT idProducto FROM ( SELECT idProducto FROM tb_producto WHERE idCategoria <> "+ idCategoría +" ) AS subconsulta)");
+            
+            if (consulta.executeUpdate() > 0) {
+                respuesta = true;
+            }
+            cn.close();
+        } catch (SQLException e) {
+            System.out.println("Error al restaurar la producto" + e);
         }
         return respuesta;
     }

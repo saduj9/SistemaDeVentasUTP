@@ -31,14 +31,13 @@ import modelo.Cliente;
 public class InterGestionarCliente extends javax.swing.JInternalFrame {
 
     private int idCliente;
- 
+
     public InterGestionarCliente() {
         initComponents();
         this.setSize(new Dimension(900, 500));
         this.setTitle("Gestionar Clientes");
 
         this.CargarTablaClientes();
-      
 
         ImageIcon wallpaper = new ImageIcon("src/img/fondo3.jpg");
         Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(900, 500, WIDTH));
@@ -61,8 +60,9 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table_clientes = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        btn_actualizar = new javax.swing.JButton();
+        btn_restaurar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
+        btn_actualizar1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -111,15 +111,15 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btn_actualizar.setBackground(new java.awt.Color(51, 204, 0));
-        btn_actualizar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btn_actualizar.setText("Actualizar");
-        btn_actualizar.addActionListener(new java.awt.event.ActionListener() {
+        btn_restaurar.setBackground(new java.awt.Color(102, 255, 255));
+        btn_restaurar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_restaurar.setText("Restaurar");
+        btn_restaurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_actualizarActionPerformed(evt);
+                btn_restaurarActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jPanel2.add(btn_restaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         btn_eliminar.setBackground(new java.awt.Color(255, 51, 51));
         btn_eliminar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -130,6 +130,16 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
             }
         });
         jPanel2.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+
+        btn_actualizar1.setBackground(new java.awt.Color(51, 204, 0));
+        btn_actualizar1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_actualizar1.setText("Actualizar");
+        btn_actualizar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizar1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_actualizar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, 130, 270));
 
@@ -162,15 +172,35 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, 90, -1));
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 170, -1));
 
         txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_apellidoKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 170, -1));
 
         txt_dni.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_dni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_dniKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 170, -1));
 
         txt_direccion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -182,67 +212,117 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
- 
-        if(txt_nombre.getText().isEmpty() && txt_apellido.getText().isEmpty() && txt_dni.getText().isEmpty() && txt_telefono.getText().isEmpty() && txt_direccion.getText().isEmpty()){
+    private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
+        Ctrl_Cliente controlCliente = new Ctrl_Cliente();
+        if (idCliente == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un cliente");
+        } else {
+            if (controlCliente.restaurar(idCliente)) {
+                JOptionPane.showMessageDialog(null, "Cliente Restaurado");
+                this.CargarTablaClientes();
+                this.Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al restaurar cliente");
+                this.Limpiar();
+            }
+
+        }
+    }//GEN-LAST:event_btn_restaurarActionPerformed
+
+    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
+        Ctrl_Cliente controlCliente = new Ctrl_Cliente();
+        if (idCliente == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un cliente");
+        } else {
+            if (controlCliente.eliminar(idCliente)) {
+                JOptionPane.showMessageDialog(null, "Cliente Eliminado");
+                this.CargarTablaClientes();
+                this.Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar cliente");
+                this.Limpiar();
+            }
+
+        }
+    }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_nombre);
+    }//GEN-LAST:event_txt_nombreKeyPressed
+
+    private void txt_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_telefono);
+    }//GEN-LAST:event_txt_telefonoKeyPressed
+
+    private void txt_apellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_apellidoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_apellido);
+    }//GEN-LAST:event_txt_apellidoKeyPressed
+
+    private void txt_dniKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_dniKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_dni);
+    }//GEN-LAST:event_txt_dniKeyPressed
+
+    private void btn_actualizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizar1ActionPerformed
+        // TODO add your handling code here:
+        if (txt_nombre.getText().isEmpty() && txt_apellido.getText().isEmpty() && txt_dni.getText().isEmpty() && txt_telefono.getText().isEmpty() && txt_direccion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Completa todos los campos");
-        }else{
+        } else {
             Cliente cliente = new Cliente();
             Ctrl_Cliente controlCliente = new Ctrl_Cliente();
-            
+
             cliente.setNombre_cliente(txt_nombre.getText().trim());
             cliente.setApellido_cliente(txt_apellido.getText().trim());
             /*Validar Campo DNI*/
-            
-            String dni=txt_dni.getText().trim();    
-            if(validarCampo(dni, 8)){
-            cliente.setDni_cliente(dni);
-            
-            /*Validar Campo Telefono*/
-            if(validarCampo(txt_telefono.getText().trim(), 9)){
-            cliente.setTelefono_cliente(txt_telefono.getText().trim());
-            cliente.setDireccion_cliente(txt_direccion.getText().trim());
-            if(controlCliente.actualizar(cliente, idCliente)){
-                JOptionPane.showMessageDialog(null, "Datos del cliente actualizados");
-                this.CargarTablaClientes();
-                this.Limpiar();
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al actualizar");
-            }
-            }else{
-                JOptionPane.showMessageDialog(null, "El dato telefono esta incorrecto");
-                txt_telefono.setBackground(Color.red);
-            }
-            }else{
+
+            String dni = txt_dni.getText().trim();
+            if (validarCampo(dni, 8)) {
+                cliente.setDni_cliente(dni);
+
+                /*Validar Campo Telefono*/
+                if (validarCampo(txt_telefono.getText().trim(), 9)) {
+                    cliente.setTelefono_cliente(txt_telefono.getText().trim());
+                    cliente.setDireccion_cliente(txt_direccion.getText().trim());
+                    if (controlCliente.actualizar(cliente, idCliente)) {
+                        JOptionPane.showMessageDialog(null, "Datos del cliente actualizados");
+                        this.CargarTablaClientes();
+                        this.Limpiar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al actualizar");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El dato telefono esta incorrecto");
+                    txt_telefono.setBackground(Color.red);
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "El dato dni esta incorrecto");
                 txt_dni.setBackground(Color.red);
-            } 
+            }
         }
-            
-    }//GEN-LAST:event_btn_actualizarActionPerformed
+    }//GEN-LAST:event_btn_actualizar1ActionPerformed
 
-    private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-       Ctrl_Cliente controlCliente = new Ctrl_Cliente();
-       if(idCliente == 0){
-           JOptionPane.showMessageDialog(null, "Seleccione un cliente");
-       }else{
-           if (controlCliente.eliminar(idCliente)) {
-               JOptionPane.showMessageDialog(null, "Cliente Eliminado");
-               this.CargarTablaClientes();
-               this.Limpiar();
-           } else {
-               JOptionPane.showMessageDialog(null, "Error al eliminar cliente");
-               this.Limpiar();
-           }
-           
-       }
-
-    }//GEN-LAST:event_btn_eliminarActionPerformed
-
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_actualizar;
+    private javax.swing.JButton btn_actualizar1;
     private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_restaurar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -268,7 +348,7 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         txt_apellido.setText("");
         txt_dni.setText("");
         txt_direccion.setText("");
-        
+
         txt_nombre.setBackground(Color.white);
         txt_apellido.setBackground(Color.white);
         txt_dni.setBackground(Color.white);
@@ -276,12 +356,10 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         txt_direccion.setBackground(Color.white);
     }
 
-  
-
     private void CargarTablaClientes() {
         Connection con = Conexion.conectar();
         DefaultTableModel model = new DefaultTableModel();
-        String sql = "select * from tb_cliente where estado = 1";
+        String sql = "select * from tb_cliente";
         Statement st;
 
         try {
@@ -297,31 +375,31 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
             model.addColumn("Telefono");
             model.addColumn("Direccion");
             model.addColumn("Estado");
-            
+
             //Codigo Juan
-            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
-                
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
-                if (value instanceof Integer){
-                int estado = (Integer) value;
-                if (estado == 1){
-                    value = "Activado";
-                }else {
-                     value = "Desactivado";
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    if (value instanceof Integer) {
+                        int estado = (Integer) value;
+                        if (estado == 1) {
+                            value = "Activado";
+                        } else {
+                            value = "Desactivado";
+                        }
+                    }
+                    return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 }
-            }
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            }
             };
-            
+
             // Asignar el renderer personalizado a la columna "estado"
             InterGestionarCliente.table_clientes.getColumnModel().getColumn(6).setCellRenderer(renderer);
             // Fin de Codigo de Juan
 
-            while (rs.next()) {       
+            while (rs.next()) {
                 Object fila[] = new Object[7];
                 for (int i = 0; i < 7; i++) {
-                    fila[i] = rs.getObject(i + 1);                   
+                    fila[i] = rs.getObject(i + 1);
                 }
                 model.addRow(fila);
             }
@@ -344,7 +422,6 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         });
     }
 
-   
     private void EnviarDatosClienteSeleccionado(int idCliente) {
         try {
             Connection con = Conexion.conectar();
@@ -357,7 +434,7 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
                 txt_dni.setText(rs.getString("dni_cliente"));
                 txt_telefono.setText(rs.getString("telefono_cliente"));
                 txt_direccion.setText(rs.getString("direccion_cliente"));
-                
+
             }
             con.close();
         } catch (SQLException e) {
@@ -374,6 +451,5 @@ public class InterGestionarCliente extends javax.swing.JInternalFrame {
         }
     }
     /*Fin de codigo implementado por Juan*/
-    
-  
+
 }

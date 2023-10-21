@@ -4,6 +4,7 @@
  */
 package vista;
 
+import controlador.Ctrl_Categoria;
 import controlador.Ctrl_Producto;
 import java.awt.Color;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.awt.HeadlessException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import modelo.Categoria;
 import modelo.Producto;
 
 /**
@@ -28,7 +30,8 @@ public class InterProducto extends javax.swing.JInternalFrame {
 
         this.setSize(new Dimension(400, 300));
         this.setTitle("Nuevo Producto");
-        this.CargarComboCategoria();
+        Ctrl_Categoria ctrCategoria = new Ctrl_Categoria();
+        ctrCategoria.llenarComboBox(jComboBox_categoria);
     }
 
     /**
@@ -102,12 +105,27 @@ public class InterProducto extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, -1, -1));
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
 
         txt_cantidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_cantidadKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
 
         txt_precio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_precioKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
 
         txt_descripcion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -123,7 +141,6 @@ public class InterProducto extends javax.swing.JInternalFrame {
         getContentPane().add(jComboBox_igv, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 170, -1));
 
         jComboBox_categoria.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jComboBox_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Categoría:" }));
         getContentPane().add(jComboBox_categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 170, -1));
 
         jButton_guardar.setBackground(new java.awt.Color(0, 204, 204));
@@ -203,7 +220,6 @@ public class InterProducto extends javax.swing.JInternalFrame {
                                 txt_cantidad.setBackground(Color.green);
                                 txt_precio.setBackground(Color.green);
                                 txt_descripcion.setBackground(Color.green);
-                                this.CargarComboCategoria();
                                 this.jComboBox_igv.setSelectedItem("Seleccione IGV:");
                                 this.Limpiar();
                             } else {
@@ -220,15 +236,48 @@ public class InterProducto extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_jButton_guardarActionPerformed
-
+    
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 3:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c) || Character.toString(c).equals("."));
+                break;
+        }
+    }
+    
+    
     private void jComboBox_igvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_igvActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_igvActionPerformed
 
+    private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_nombre);
+    }//GEN-LAST:event_txt_nombreKeyPressed
+
+    private void txt_cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_cantidad);
+    }//GEN-LAST:event_txt_cantidadKeyPressed
+
+    private void txt_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_precioKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(3, c, txt_precio);
+    }//GEN-LAST:event_txt_precioKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_guardar;
-    private javax.swing.JComboBox<String> jComboBox_categoria;
+    private javax.swing.JComboBox<Categoria> jComboBox_categoria;
     private javax.swing.JComboBox<String> jComboBox_igv;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -246,36 +295,11 @@ public class InterProducto extends javax.swing.JInternalFrame {
     /**
      * limpiar campos
      */
-    private void Limpiar(){
+    private void Limpiar() {
         txt_nombre.setText("");
         txt_cantidad.setText("");
         txt_precio.setText("");
         txt_descripcion.setText("");
-   }
-    
-    /**
-     * Metodo para cargar las categorias
-     */
-    private void CargarComboCategoria() {
-        Connection cn = conexion.Conexion.conectar();
-        String sql = "select * from tb_categoria";
-        Statement st;
-
-        try {
-            st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            jComboBox_categoria.removeAllItems();
-            jComboBox_categoria.addItem("Seleccione categoria:");
-            while (rs.next()) {
-                jComboBox_categoria.addItem(rs.getString("descripcion"));
-
-            }
-            cn.close();
-
-        } catch (SQLException e) {
-            System.out.println("Error al cargar las categorias");
-        }
-
     }
 
     private int IdCategoria() {
