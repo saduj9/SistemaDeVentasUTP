@@ -16,6 +16,7 @@ public class Almacen {
     private String sku;
     private int stock;
     private String ubicacion;
+    private String fechaIngreso;
     private int estado;
 
     public Almacen() {
@@ -25,16 +26,18 @@ public class Almacen {
         this.sku = "";
         this.stock = 0;
         this.ubicacion = "";
+        this.fechaIngreso = "";
         this.estado = 0;
     }
 
-    public Almacen(int idAlmacen, int idCabeceraCompra, int idProducto, String sku, int stock, String ubicacion, int estado) {
+    public Almacen(int idAlmacen, int idCabeceraCompra, int idProducto, String sku, int stock, String ubicacion,String fechaIngreso, int estado) {
         this.idAlmacen = idAlmacen;
         this.idCabeceraCompra = idCabeceraCompra;
         this.idProducto = idProducto;
         this.sku = sku;
         this.stock = stock;
         this.ubicacion = ubicacion;
+        this.fechaIngreso = fechaIngreso;
         this.estado = estado;
     }
 
@@ -86,6 +89,14 @@ public class Almacen {
         this.ubicacion = ubicacion;
     }
 
+    public String getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(String fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
+
     public int getEstado() {
         return estado;
     }
@@ -93,6 +104,6 @@ public class Almacen {
     public void setEstado(int estado) {
         this.estado = estado;
     }
-    
+
     
 }
