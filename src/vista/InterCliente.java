@@ -88,15 +88,35 @@ public class InterCliente extends javax.swing.JInternalFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
 
         txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_apellidoKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
 
         txt_dni.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_dni.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_dniKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_dni, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, -1));
 
         txt_direccion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -123,44 +143,44 @@ public class InterCliente extends javax.swing.JInternalFrame {
 
         Cliente cliente = new Cliente();
         Ctrl_Cliente controlCliente = new Ctrl_Cliente();
-        String nombre_cliente=txt_nombre.getText().trim();
-        String apellido_cliente=txt_apellido.getText().trim();
-        String dni= txt_dni.getText().trim();
-        String telefono_cliente= txt_telefono.getText().trim();
-        String direccion_cliente= txt_direccion.getText().trim();
-        
+        String nombre_cliente = txt_nombre.getText().trim();
+        String apellido_cliente = txt_apellido.getText().trim();
+        String dni = txt_dni.getText().trim();
+        String telefono_cliente = txt_telefono.getText().trim();
+        String direccion_cliente = txt_direccion.getText().trim();
+
         if (!txt_nombre.getText().isEmpty() && !txt_apellido.getText().isEmpty() && !txt_dni.getText().isEmpty()) {
             //JOptionPane.showMessageDialog(null, "Correcto");
             if (!controlCliente.existeCliente(txt_dni.getText().trim())) {
-                
+
                 cliente.setNombre_cliente(txt_nombre.getText().trim());
                 cliente.setApellido_cliente(txt_apellido.getText().trim());
-                if(validarCampo(dni, 8)){
-                cliente.setDni_cliente(dni); 
-                
-                if(validarCampo(telefono_cliente, 9)){
-                cliente.setTelefono_cliente(telefono_cliente);
-                cliente.setDireccion_cliente(txt_direccion.getText().trim());
-                cliente.setEstado(1);
+                if (validarCampo(dni, 8)) {
+                    cliente.setDni_cliente(dni);
 
-                if (controlCliente.guardar(cliente)) {
-                    JOptionPane.showMessageDialog(null, "Registro guardado");
-                    this.Limpiar();
+                    if (validarCampo(telefono_cliente, 9)) {
+                        cliente.setTelefono_cliente(telefono_cliente);
+                        cliente.setDireccion_cliente(txt_direccion.getText().trim());
+                        cliente.setEstado(1);
+
+                        if (controlCliente.guardar(cliente)) {
+                            JOptionPane.showMessageDialog(null, "Registro guardado");
+                            this.Limpiar();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al guardar");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
+                        this.Limpiar();
+                        txt_nombre.setText(nombre_cliente);
+                        txt_apellido.setText(apellido_cliente);
+                        txt_dni.setText(dni);
+                        txt_direccion.setText(direccion_cliente);
+                        txt_telefono.setBackground(Color.red);
+                    }
+                    /*Juan-----------------------------------------------------*/
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al guardar");
-                }
-                
-                }else{
-                    JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
-                    this.Limpiar();
-                    txt_nombre.setText(nombre_cliente);
-                    txt_apellido.setText(apellido_cliente);
-                    txt_dni.setText(dni);
-                    txt_direccion.setText(direccion_cliente);
-                    txt_telefono.setBackground(Color.red);
-                }
-                /*Juan-----------------------------------------------------*/
-                }else{
                     JOptionPane.showMessageDialog(null, "El campo DNI esta incorrecto");
                     this.Limpiar();
                     txt_nombre.setText(nombre_cliente);
@@ -189,6 +209,40 @@ public class InterCliente extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jButton_guardarActionPerformed
 
+    private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_nombre);
+    }//GEN-LAST:event_txt_nombreKeyPressed
+
+    private void txt_apellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_apellidoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_apellido);
+    }//GEN-LAST:event_txt_apellidoKeyPressed
+
+    private void txt_dniKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_dniKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_dni);
+    }//GEN-LAST:event_txt_dniKeyPressed
+
+    private void txt_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_telefono);
+    }//GEN-LAST:event_txt_telefonoKeyPressed
+
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_guardar;
@@ -229,5 +283,5 @@ public class InterCliente extends javax.swing.JInternalFrame {
             return false;
         }
     }
-    
+
 }

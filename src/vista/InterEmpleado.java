@@ -115,9 +115,19 @@ public class InterEmpleado extends javax.swing.JInternalFrame {
         getContentPane().add(jComboBox_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 170, -1));
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 170, -1));
 
         txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_apellidoKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 170, -1));
 
         txt_usuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -127,6 +137,11 @@ public class InterEmpleado extends javax.swing.JInternalFrame {
         getContentPane().add(txt_contrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyPressed(evt);
+            }
+        });
         getContentPane().add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 170, -1));
 
         jButton_guardar.setBackground(new java.awt.Color(0, 204, 204));
@@ -185,7 +200,7 @@ public class InterEmpleado extends javax.swing.JInternalFrame {
                         JOptionPane.showMessageDialog(null, "Error al registrar el empleado");
                     }
                 } else {
-                   JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
+                    JOptionPane.showMessageDialog(null, "El campo Telefono esta incorrecto");
                     this.Limpiar();
                     txt_nombre.setText(nombre_empleado);
                     txt_apellido.setText(apellido_empleado);
@@ -222,9 +237,37 @@ public class InterEmpleado extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jCheckBox_ver_claveMouseClicked
 
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+        }
+    }
     private void jComboBox_rolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_rolActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_rolActionPerformed
+
+    private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_nombre);
+    }//GEN-LAST:event_txt_nombreKeyPressed
+
+    private void txt_apellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_apellidoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_apellido);
+    }//GEN-LAST:event_txt_apellidoKeyPressed
+
+    private void txt_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_telefono);
+    }//GEN-LAST:event_txt_telefonoKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

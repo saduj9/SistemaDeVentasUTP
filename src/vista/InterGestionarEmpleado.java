@@ -6,6 +6,7 @@ package vista;
 
 import conexion.Conexion;
 import controlador.Ctrl_Empleado;
+import controlador.Ctrl_Rol;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import modelo.Empleado;
+import modelo.Rol;
 
 /**
  *
@@ -27,20 +29,21 @@ import modelo.Empleado;
  */
 public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
 
-     private int idEmpleado = 0;
- 
+    private int idEmpleado = 0;
+
     public InterGestionarEmpleado() {
         initComponents();
         this.setSize(new Dimension(900, 500));
         this.setTitle("Gestionar Empleados");
 
         this.CargarTablaUsuarios();
-      
 
         ImageIcon wallpaper = new ImageIcon("src/img/fondo3.jpg");
         Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(900, 500, WIDTH));
         jLabel_wallpaper.setIcon(icono);
         this.repaint();
+        Ctrl_Rol ctrlRol = new Ctrl_Rol();
+        ctrlRol.llenarComboBox(jComboBox_rol);
 
     }
 
@@ -60,6 +63,7 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         btn_actualizar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
+        btn_restaurar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -72,7 +76,7 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
         txt_apellido = new javax.swing.JTextField();
         txt_usuario = new javax.swing.JTextField();
         txt_telefono = new javax.swing.JTextField();
-        txt_rol = new javax.swing.JTextField();
+        jComboBox_rol = new javax.swing.JComboBox<>();
         jLabel_wallpaper = new javax.swing.JLabel();
 
         setClosable(true);
@@ -130,6 +134,16 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
+        btn_restaurar.setBackground(new java.awt.Color(102, 255, 255));
+        btn_restaurar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_restaurar.setText("Restaurar");
+        btn_restaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restaurarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_restaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, 130, 270));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -166,22 +180,36 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, 90, -1));
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 170, -1));
 
         txt_contraseña.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel3.add(txt_contraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 170, -1));
 
         txt_apellido.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_apellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_apellidoKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_apellido, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 170, -1));
 
         txt_usuario.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel3.add(txt_usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, 170, -1));
 
-        txt_rol.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jPanel3.add(txt_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 170, -1));
+        jPanel3.add(jComboBox_rol, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 170, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 870, 100));
         getContentPane().add(jLabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 470));
@@ -192,12 +220,12 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
         Empleado empleado = new Empleado();
         Ctrl_Empleado controlEmpleado = new Ctrl_Empleado();
-
+        int rol = jComboBox_rol.getItemAt(jComboBox_rol.getSelectedIndex()).getIdRol();
         if (idEmpleado == 0) {
             JOptionPane.showMessageDialog(null, "¡Seleccione un Empleado!");
         } else {
             if (txt_nombre.getText().isEmpty() || txt_apellido.getText().isEmpty() || txt_usuario.getText().isEmpty()
-                    || txt_contraseña.getText().isEmpty() || txt_telefono.getText().isEmpty() || txt_rol.getText().isEmpty()) {
+                    || txt_contraseña.getText().isEmpty() || txt_telefono.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "¡Completa todos los campos!");
 
             } else {
@@ -205,27 +233,27 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
                 empleado.setApellido(txt_apellido.getText().trim());
                 empleado.setUsuario(txt_usuario.getText().trim());
                 empleado.setContraseña(txt_contraseña.getText().trim());
-                empleado.setIdRol(Integer.parseInt(txt_rol.getText().trim()));
+                empleado.setIdRol(rol);
                 empleado.setTelefono(txt_telefono.getText().trim());
                 empleado.setEstado(1);
-                
-                if(controlEmpleado.actualizar(empleado, idEmpleado)){
+
+                if (controlEmpleado.actualizar(empleado, idEmpleado)) {
                     JOptionPane.showMessageDialog(null, "¡Actualizacion Exitosa!");
                     this.Limpiar();
                     this.CargarTablaUsuarios();
                     idEmpleado = 0;
-                    
-                }else{
+
+                } else {
                     JOptionPane.showMessageDialog(null, "¡Error al actualizar empleado!");
                 }
             }
         }
-        
-            
+
+
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-       Ctrl_Empleado controlEmpleado = new Ctrl_Empleado();
+        Ctrl_Empleado controlEmpleado = new Ctrl_Empleado();
         if (idEmpleado == 0) {
             JOptionPane.showMessageDialog(null, "¡Seleccione un empleado!");
         } else {
@@ -242,10 +270,58 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btn_eliminarActionPerformed
 
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+        }
+    }
+
+    private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_nombre);
+    }//GEN-LAST:event_txt_nombreKeyPressed
+
+    private void txt_apellidoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_apellidoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_apellido);
+    }//GEN-LAST:event_txt_apellidoKeyPressed
+
+    private void txt_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_telefono);
+    }//GEN-LAST:event_txt_telefonoKeyPressed
+
+    private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
+        Ctrl_Empleado controlEmpleado = new Ctrl_Empleado();
+        if (idEmpleado == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un empleado");
+        } else {
+            if (controlEmpleado.restaurar(idEmpleado)) {
+                JOptionPane.showMessageDialog(null, "Empleado Restaurado");
+                this.CargarTablaUsuarios();
+                this.Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al restaurar empleado");
+                this.Limpiar();
+            }
+
+        }
+    }//GEN-LAST:event_btn_restaurarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_restaurar;
+    private javax.swing.JComboBox<Rol> jComboBox_rol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -262,7 +338,6 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_contraseña;
     private javax.swing.JTextField txt_nombre;
-    private javax.swing.JTextField txt_rol;
     private javax.swing.JTextField txt_telefono;
     private javax.swing.JTextField txt_usuario;
     // End of variables declaration//GEN-END:variables
@@ -273,17 +348,15 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
         txt_apellido.setText("");
         txt_usuario.setText("");
         txt_telefono.setText("");
-        txt_rol.setText("");
+        jComboBox_rol.setSelectedIndex(0);
     }
-
-  
 
     private void CargarTablaUsuarios() {
         Connection con = Conexion.conectar();
         DefaultTableModel model = new DefaultTableModel();
         String sql = "select tb_empleado.idEmpleado, tb_empleado.nombre,tb_empleado.apellido,tb_empleado.usuario"
-                + ",tb_empleado.contraseña, tb_rol.nombreRol , tb_empleado.telefono from tb_empleado inner join "
-                + "tb_rol on tb_rol.idRol = tb_empleado.idRol where tb_empleado.estado = 1 and tb_rol.estado = 1";
+                + ",tb_empleado.contraseña, tb_rol.nombreRol , tb_empleado.telefono, tb_empleado.estado from tb_empleado inner join "
+                + "tb_rol on tb_rol.idRol = tb_empleado.idRol";
         Statement st;
         try {
             st = con.createStatement();
@@ -298,10 +371,11 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
             model.addColumn("password");
             model.addColumn("rol");
             model.addColumn("telefono");
+            model.addColumn("estado");
 
             while (rs.next()) {
-                Object fila[] = new Object[7];
-                for (int i = 0; i < 7; i++) {
+                Object fila[] = new Object[8];
+                for (int i = 0; i < 8; i++) {
                     fila[i] = rs.getObject(i + 1);
                 }
                 model.addRow(fila);
@@ -344,16 +418,11 @@ public class InterGestionarEmpleado extends javax.swing.JInternalFrame {
                 txt_usuario.setText(rs.getString("usuario"));
                 txt_contraseña.setText(rs.getString("contraseña"));
                 txt_telefono.setText(rs.getString("telefono"));
-                txt_rol.setText(rs.getString("rol"));
+                jComboBox_rol.setSelectedIndex(rs.getInt("idRol")-1);
             }
             con.close();
         } catch (SQLException e) {
             System.out.println("Error al seleccionar empleado: " + e);
         }
     }
-
-   
-    
-
-  
 }

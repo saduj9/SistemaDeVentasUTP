@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package vista;
+
 import conexion.Conexion;
 import controlador.Ctrl_Categoria;
 import controlador.Ctrl_Producto;
@@ -27,12 +28,12 @@ import modelo.Producto;
 public class InterGestionarCategoria extends javax.swing.JInternalFrame {
 
     private int idCategoria;
-    
+
     public InterGestionarCategoria() {
         initComponents();
-        this.setSize(new Dimension(600,400));
+        this.setSize(new Dimension(600, 400));
         this.setTitle("Gestionar Categorias");
-        
+
         this.CargarTablaCategorias();
     }
 
@@ -52,6 +53,7 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         btn_actualizar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
+        btn_restaurar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_descripcion = new javax.swing.JTextField();
@@ -108,9 +110,19 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
                 btn_eliminarActionPerformed(evt);
             }
         });
-        jPanel2.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+        jPanel2.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 90, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 130, 80));
+        btn_restaurar.setBackground(new java.awt.Color(102, 255, 255));
+        btn_restaurar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_restaurar.setText("Restaurar");
+        btn_restaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restaurarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_restaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 130, 130));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -123,7 +135,7 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
         txt_descripcion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jPanel3.add(txt_descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 170, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 160, 190, 80));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 190, 80));
 
         jlabel_wallpaper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo3.jpg"))); // NOI18N
         getContentPane().add(jlabel_wallpaper, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 370));
@@ -132,39 +144,37 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        
-        
-        if(!txt_descripcion.getText().isEmpty()){
+        if (!txt_descripcion.getText().isEmpty()) {
             Categoria categoria = new Categoria();
             Ctrl_Categoria controlCategoria = new Ctrl_Categoria();
-            
+
             categoria.setDescripcion(txt_descripcion.getText().trim());
-            if(controlCategoria.actualizar(categoria, idCategoria)){
+            if (controlCategoria.actualizar(categoria, idCategoria)) {
                 JOptionPane.showMessageDialog(null, "Categoría actualizada");
                 txt_descripcion.setText("");
                 this.CargarTablaCategorias();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Error al actualizar categoría");
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione una categoria");
         }
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-        if(!txt_descripcion.getText().isEmpty()){
+        if (!txt_descripcion.getText().isEmpty()) {
             Categoria categoria = new Categoria();
             Producto producto = new Producto();
             Ctrl_Categoria controlCategoria = new Ctrl_Categoria();
             Ctrl_Producto controlProducto = new Ctrl_Producto();
-            
-            if(controlCategoria.existeProductoporCategoría(idCategoria)){
-                
+
+            if (controlCategoria.existeProductoporCategoría(idCategoria)) {
+
                 int opcion = JOptionPane.showConfirmDialog(null, "Esta Categoría tiene productos relacionado. ¿Seguro que quieres eliminarlo?");
                 if (opcion == JOptionPane.YES_OPTION) {
                     System.out.println("Guardar cambios");
-                    
-                    if(controlProducto.eliminarPorCategoria(idCategoria)){
+
+                    if (controlProducto.eliminarPorCategoria(idCategoria)) {
                         JOptionPane.showMessageDialog(null, "Los productos de la categoria fueron eliminados");
                         categoria.setDescripcion(txt_descripcion.getText().trim());
                         if (controlCategoria.eliminar(idCategoria)) {
@@ -174,7 +184,7 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "Error al eliminar categoría");
                         }
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Error al eliminar categoría");
                     }
                 } else if (opcion == JOptionPane.NO_OPTION) {
@@ -183,19 +193,65 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
                     System.out.println("Cancelar");
                 } else {
                     System.out.println("Cuadro de diálogo cerrado sin selección");
-                }   
-            }else{
-                JOptionPane.showMessageDialog(null, "No Hay información para este dato");
+                }
+            } else {
+                controlCategoria.eliminar(idCategoria);
+                JOptionPane.showMessageDialog(null, "Categoria eliminada");
+                this.CargarTablaCategorias();
             }
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Seleccione una categoria");
         }
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
+        if (!txt_descripcion.getText().isEmpty()) {
+            Categoria categoria = new Categoria();
+            Producto producto = new Producto();
+            Ctrl_Categoria controlCategoria = new Ctrl_Categoria();
+            Ctrl_Producto controlProducto = new Ctrl_Producto();
+
+            if (controlCategoria.existeProductoporCategoría(idCategoria)) {
+
+                int opcion = JOptionPane.showConfirmDialog(null, "Esta Categoría tiene productos relacionado. ¿Seguro que quieres retaurarla? Los productos relacionados se restauraran");
+                if (opcion == JOptionPane.YES_OPTION) {
+                    System.out.println("Guardar cambios");
+
+                    if (controlProducto.restaurarPorCategoria(idCategoria)) {
+                        JOptionPane.showMessageDialog(null, "Los productos de la categoria fueron restaurados");
+                        categoria.setDescripcion(txt_descripcion.getText().trim());
+                        if (controlCategoria.restaurar(idCategoria)) {
+                            JOptionPane.showMessageDialog(null, "Categoría restaurada");
+                            txt_descripcion.setText("");
+                            this.CargarTablaCategorias();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al restaurar categoría");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al restaurar categoría");
+                    }
+                } else if (opcion == JOptionPane.NO_OPTION) {
+                    System.out.println("No guardar cambios");
+                } else if (opcion == JOptionPane.CANCEL_OPTION) {
+                    System.out.println("Cancelar");
+                } else {
+                    System.out.println("Cuadro de diálogo cerrado sin selección");
+                }
+            } else {
+                controlCategoria.restaurar(idCategoria);
+                JOptionPane.showMessageDialog(null, "Categoria restaurada");
+                this.CargarTablaCategorias();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione una categoria");
+        }
+    }//GEN-LAST:event_btn_restaurarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_restaurar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -210,27 +266,27 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
     /**
      * método para mostrar todas las categorias registradas
      */
-    private void CargarTablaCategorias(){
+    private void CargarTablaCategorias() {
         Connection con = Conexion.conectar();
         DefaultTableModel model = new DefaultTableModel();
-        String sql= "select idCategoria, descripcion, estado from tb_categoria where estado = '1'";
-        Statement st ;
-        
+        String sql = "select idCategoria, descripcion, estado from tb_categoria";
+        Statement st;
+
         try {
             st = con.createStatement();
-            ResultSet rs =  st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql);
             InterGestionarCategoria.table_categoria = new JTable(model);
             InterGestionarCategoria.jScrollPane1.setViewportView(InterGestionarCategoria.table_categoria);
-            
+
             model.addColumn("idCategoria");
             model.addColumn("descripcion");
             model.addColumn("estado");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 Object fila[] = new Object[3];
-                
-                for(int i=0; i<3; i++){
-                    fila[i] = rs.getObject(i+1);
+
+                for (int i = 0; i < 3; i++) {
+                    fila[i] = rs.getObject(i + 1);
                 }
                 model.addRow(fila);
             }
@@ -238,28 +294,28 @@ public class InterGestionarCategoria extends javax.swing.JInternalFrame {
         } catch (SQLException e) {
             System.out.println("Error al llenar la tabla categoria: " + e);
         }
-        table_categoria.addMouseListener(new MouseAdapter(){
+        table_categoria.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
                 int fila_point = table_categoria.rowAtPoint(e.getPoint());
                 int columna_point = 0;
-                
-                if(fila_point > -1){
+
+                if (fila_point > -1) {
                     idCategoria = (int) model.getValueAt(fila_point, columna_point);
                     EnviarDatosCategoriaSeleccionada(idCategoria);
                 }
-                
+
             }
         });
     }
-    
-    private void EnviarDatosCategoriaSeleccionada(int idCategoria){
+
+    private void EnviarDatosCategoriaSeleccionada(int idCategoria) {
         try {
             Connection con = Conexion.conectar();
-            PreparedStatement pst = con.prepareStatement("select * from tb_categoria where idCategoria = '" + idCategoria +"'");
+            PreparedStatement pst = con.prepareStatement("select * from tb_categoria where idCategoria = '" + idCategoria + "'");
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 txt_descripcion.setText(rs.getString("descripcion"));
             }
             con.close();

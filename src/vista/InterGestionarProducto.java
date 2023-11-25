@@ -66,6 +66,7 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         btn_actualizar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
+        btn_restaurar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -136,6 +137,16 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
+        btn_restaurar.setBackground(new java.awt.Color(102, 255, 255));
+        btn_restaurar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_restaurar.setText("Restaurar");
+        btn_restaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restaurarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_restaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, 130, 270));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -173,13 +184,28 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, 90, -1));
 
         txt_nombre.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 170, -1));
 
         txt_cantidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         txt_cantidad.setEnabled(false);
+        txt_cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_cantidadKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 170, -1));
 
         txt_precio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_precio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_precioKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 170, -1));
 
         txt_descripcion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -278,6 +304,19 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 3:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c) || Character.toString(c).equals("."));
+                break;
+        }
+    }
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
         Ctrl_Producto controlProducto = new Ctrl_Producto();
         if (idProducto == 0) {
@@ -303,10 +342,45 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_categoriaActionPerformed
 
+    private void txt_nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_nombre);
+    }//GEN-LAST:event_txt_nombreKeyPressed
+
+    private void txt_precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_precioKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(3, c, txt_precio);
+    }//GEN-LAST:event_txt_precioKeyPressed
+
+    private void txt_cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_cantidadKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_cantidad);
+    }//GEN-LAST:event_txt_cantidadKeyPressed
+
+    private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
+        Ctrl_Producto controlProducto = new Ctrl_Producto();
+        if (idProducto == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un producto");
+        } else {
+            if (!controlProducto.restaurar(idProducto)) {
+                JOptionPane.showMessageDialog(null, "Producto restaurado");
+                this.CargarTablaProductos();
+                this.CargarComboCategoria();
+                this.Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al restaurar producto");
+            }
+        }
+    }//GEN-LAST:event_btn_restaurarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_restaurar;
     private javax.swing.JComboBox<String> jComboBox_categoria;
     private javax.swing.JComboBox<String> jComboBox_igv;
     private javax.swing.JLabel jLabel1;
@@ -387,23 +461,23 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
             model.addColumn("IGV");
             model.addColumn("categoria");
             model.addColumn("estado");
-            
+
             //Codigo Juan
-            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
-                
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
-                if (value instanceof Integer){
-                int estado = (Integer) value;
-                if (estado == 1){
-                    value = "Activado";
-                }else {
-                     value = "Desactivado";
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    if (value instanceof Integer) {
+                        int estado = (Integer) value;
+                        if (estado == 1) {
+                            value = "Activado";
+                        } else {
+                            value = "Desactivado";
+                        }
+                    }
+                    return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 }
-            }
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            }
             };
-            
+
             // Asignar el renderer personalizado a la columna "estado"
             InterGestionarProducto.table_productos.getColumnModel().getColumn(7).setCellRenderer(renderer);
             // Fin de Codigo de Juan
@@ -421,7 +495,7 @@ public class InterGestionarProducto extends javax.swing.JInternalFrame {
                         rs.getObject(i + 1);
                     } else {
                         fila[i] = rs.getObject(i + 1);
-                    }                   
+                    }
                 }
                 model.addRow(fila);
             }

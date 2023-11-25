@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -24,7 +26,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import modelo.Proveedor;
 
-
 /**
  *
  * @author saduj
@@ -32,14 +33,13 @@ import modelo.Proveedor;
 public class InterGestionarProveedor extends javax.swing.JInternalFrame {
 
     private int idProveedor;
- 
+
     public InterGestionarProveedor() {
         initComponents();
         this.setSize(new Dimension(900, 500));
         this.setTitle("Gestionar Proveedor");
 
         this.CargarTablaProveedor();
-      
 
         ImageIcon wallpaper = new ImageIcon("src/img/fondo3.jpg");
         Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(900, 500, WIDTH));
@@ -64,6 +64,7 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         btn_actualizar = new javax.swing.JButton();
         btn_eliminar = new javax.swing.JButton();
+        btn_restaurar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -132,6 +133,16 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
+        btn_restaurar.setBackground(new java.awt.Color(102, 255, 255));
+        btn_restaurar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_restaurar.setText("Restaurar");
+        btn_restaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_restaurarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btn_restaurar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 50, 130, 270));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -163,12 +174,27 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, 90, -1));
 
         txt_razon_social.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_razon_social.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_razon_socialKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_razon_social, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 170, -1));
 
         txt_telefono.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_telefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_telefonoKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 170, -1));
 
         txt_ruc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txt_ruc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_rucKeyPressed(evt);
+            }
+        });
         jPanel3.add(txt_ruc, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 170, -1));
 
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -184,66 +210,132 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
- 
-        if(txt_razon_social.getText().isEmpty() && txt_ruc.getText().isEmpty() && txt_email.getText().isEmpty() && txt_telefono.getText().isEmpty() && txt_direccion.getText().isEmpty()){
+
+        if (txt_razon_social.getText().isEmpty() && txt_ruc.getText().isEmpty() && txt_email.getText().isEmpty() && txt_telefono.getText().isEmpty() && txt_direccion.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Completa todos los campos");
-        }else{
+        } else {
             Proveedor proveedor = new Proveedor();
             Ctrl_Proveedor controlProveedor = new Ctrl_Proveedor();
-            
+
             proveedor.setRazon_social(txt_razon_social.getText().trim());
             proveedor.setEmail(txt_email.getText().trim());
             /*Validar Campo DNI*/
-            
-            String ruc=txt_ruc.getText().trim();    
-            if(validarCampo(ruc, 11)){
-            proveedor.setRuc(ruc);
-            
-            /*Validar Campo Telefono*/
-            if(validarCampo(txt_telefono.getText().trim(), 9)){
-            proveedor.setTelefono(txt_telefono.getText().trim());
-            proveedor.setDireccion(txt_direccion.getText().trim());
-            if(controlProveedor.actualizar(proveedor, idProveedor)){
-                JOptionPane.showMessageDialog(null, "Datos del proveedor actualizados");
-                this.CargarTablaProveedor();
-                this.Limpiar();
-            }else{
-                JOptionPane.showMessageDialog(null, "Error al actualizar");
-            }
-            }else{
-                JOptionPane.showMessageDialog(null, "El dato telefono esta incorrecto");
-                txt_telefono.setBackground(Color.red);
-            }
-            }else{
+
+            String ruc = txt_ruc.getText().trim();
+            if (validarCampo(ruc, 11)) {
+                proveedor.setRuc(ruc);
+
+                /*Validar Campo Telefono*/
+                if (validarCampo(txt_telefono.getText().trim(), 9)) {
+                    proveedor.setTelefono(txt_telefono.getText().trim());
+                    proveedor.setDireccion(txt_direccion.getText().trim());
+                    if (validarCorreoElectronico(txt_email.getText().trim()) && tieneExtension(txt_email.getText().trim())) {
+                        if (controlProveedor.actualizar(proveedor, idProveedor)) {
+                            JOptionPane.showMessageDialog(null, "Datos del proveedor actualizados");
+                            this.CargarTablaProveedor();
+                            this.Limpiar();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Error al actualizar");
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "El dato email es invalido");
+                    txt_email.setBackground(Color.red);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El dato telefono esta incorrecto");
+                    txt_telefono.setBackground(Color.red);
+                }
+            } else {
                 JOptionPane.showMessageDialog(null, "El dato ruc esta incorrecto");
                 txt_ruc.setBackground(Color.red);
-            } 
+            }
         }
-            
+
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
+    public static boolean validarCorreoElectronico(String correoElectronico) {
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correoElectronico);
+        return matcher.matches();
+    }
+
+    public static boolean tieneExtension(String correoElectronico) {
+        String regex = ".*\\.[a-zA-Z]{2,}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(correoElectronico);
+        return matcher.matches();
+    }
+
     private void btn_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarActionPerformed
-       Ctrl_Proveedor controlProveedor = new Ctrl_Proveedor();
-       if(idProveedor == 0){
-           JOptionPane.showMessageDialog(null, "Seleccione un proveedor");
-       }else{
-           if (controlProveedor.eliminar(idProveedor)) {
-               JOptionPane.showMessageDialog(null, "Proveedor Eliminado");
-               this.CargarTablaProveedor();
-               this.Limpiar();
-           } else {
-               JOptionPane.showMessageDialog(null, "Error al eliminar proveedor");
-               this.Limpiar();
-           }
-           
-       }
+        Ctrl_Proveedor controlProveedor = new Ctrl_Proveedor();
+        if (idProveedor == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un proveedor");
+        } else {
+            if (controlProveedor.eliminar(idProveedor)) {
+                JOptionPane.showMessageDialog(null, "Proveedor Eliminado");
+                this.CargarTablaProveedor();
+                this.Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al eliminar proveedor");
+                this.Limpiar();
+            }
+
+        }
 
     }//GEN-LAST:event_btn_eliminarActionPerformed
+
+    void validarInputs(int tipo, char c, javax.swing.JTextField input) {
+        switch (tipo) {
+            case 1:
+                input.setEditable(Character.isLetter(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+            case 2:
+                input.setEditable(Character.isDigit(c) || Character.isWhitespace(c) || Character.isISOControl(c));
+                break;
+        }
+    }
+
+    private void txt_razon_socialKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_razon_socialKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(1, c, txt_razon_social);
+    }//GEN-LAST:event_txt_razon_socialKeyPressed
+
+    private void txt_telefonoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_telefonoKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_telefono);
+    }//GEN-LAST:event_txt_telefonoKeyPressed
+
+    private void txt_rucKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_rucKeyPressed
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        validarInputs(2, c, txt_ruc);
+    }//GEN-LAST:event_txt_rucKeyPressed
+
+    private void btn_restaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_restaurarActionPerformed
+         Ctrl_Proveedor controlProveedor = new Ctrl_Proveedor();
+        if (idProveedor == 0) {
+            JOptionPane.showMessageDialog(null, "Seleccione un proveedor");
+        } else {
+            if (controlProveedor.restaurar(idProveedor)) {
+                JOptionPane.showMessageDialog(null, "Proveedor Restaurado");
+                this.CargarTablaProveedor();
+                this.Limpiar();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al restaurar proveedor");
+                this.Limpiar();
+            }
+
+        }
+    }//GEN-LAST:event_btn_restaurarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_actualizar;
     private javax.swing.JButton btn_eliminar;
+    private javax.swing.JButton btn_restaurar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -269,7 +361,7 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         txt_ruc.setText("");
         txt_email.setText("");
         txt_direccion.setText("");
-        
+
         txt_razon_social.setBackground(Color.white);
         txt_ruc.setBackground(Color.white);
         txt_email.setBackground(Color.white);
@@ -277,12 +369,10 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         txt_direccion.setBackground(Color.white);
     }
 
-  
-
     private void CargarTablaProveedor() {
         Connection con = Conexion.conectar();
         DefaultTableModel model = new DefaultTableModel();
-        String sql = "select * from tb_proveedor where estado = 1";
+        String sql = "select * from tb_proveedor";
         Statement st;
 
         try {
@@ -298,31 +388,31 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
             model.addColumn("Telefono");
             model.addColumn("Direccion");
             model.addColumn("Estado");
-            
+
             //Codigo Juan
-            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer(){
-                
-                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
-                if (value instanceof Integer){
-                int estado = (Integer) value;
-                if (estado == 1){
-                    value = "Activado";
-                }else {
-                     value = "Desactivado";
+            DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+
+                public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                    if (value instanceof Integer) {
+                        int estado = (Integer) value;
+                        if (estado == 1) {
+                            value = "Activado";
+                        } else {
+                            value = "Desactivado";
+                        }
+                    }
+                    return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 }
-            }
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            }
             };
-            
+
             // Asignar el renderer personalizado a la columna "estado"
             InterGestionarProveedor.table_proveedores.getColumnModel().getColumn(6).setCellRenderer(renderer);
             // Fin de Codigo de Juan
 
-            while (rs.next()) {       
+            while (rs.next()) {
                 Object fila[] = new Object[7];
                 for (int i = 0; i < 7; i++) {
-                    fila[i] = rs.getObject(i + 1);                   
+                    fila[i] = rs.getObject(i + 1);
                 }
                 model.addRow(fila);
             }
@@ -345,7 +435,6 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         });
     }
 
-   
     private void EnviarDatosProveedorSeleccionado(int idProveedor) {
         try {
             Connection con = Conexion.conectar();
@@ -358,7 +447,7 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
                 txt_email.setText(rs.getString("email"));
                 txt_telefono.setText(rs.getString("telefono"));
                 txt_direccion.setText(rs.getString("direccion"));
-                
+
             }
             con.close();
         } catch (SQLException e) {
@@ -375,6 +464,5 @@ public class InterGestionarProveedor extends javax.swing.JInternalFrame {
         }
     }
     /*Fin de codigo implementado por Juan*/
-    
-  
+
 }

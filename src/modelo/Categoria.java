@@ -50,5 +50,10 @@ public class Categoria {
         this.estado = estado;
     }
     
+    @Override
+    public String toString(){
+        return descripcion;
+    }
+    
     
 }
