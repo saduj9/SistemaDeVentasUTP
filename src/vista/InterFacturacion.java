@@ -338,7 +338,7 @@ public class InterFacturacion extends javax.swing.JInternalFrame {
                 jComboBox_cliente.setSelectedItem(rs.getString("nombre_cliente") + " " + rs.getString("apellido_cliente"));
             } else {
                 jComboBox_cliente.setSelectedItem("Seleccione cliente:");
-                JOptionPane.showMessageDialog(null, "¡Cedula de cliente incorrecta o no encontrada!");
+                JOptionPane.showMessageDialog(null, "¡DNI de cliente incorrecta o no encontrada!");
             }
             txt_cliente_buscar.setText("");
             cn.close();

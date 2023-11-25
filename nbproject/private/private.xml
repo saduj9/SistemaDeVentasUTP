@@ -3,8 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/controlador/Ctrl_Producto.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/InterGestionarCompras.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/InterCompras.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/controlador/Ctrl_Almacen.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/InterGestionarAlmacen.java</file>
             <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/FrmMenu.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/InterAlmacen.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/InterActualizarStock.java</file>
             <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/FrmLogin.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/vista/InterFacturacion.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/modelo/Almacen.java</file>
+            <file>file:/C:/Users/saduj/Documents/NetBeansProjects/SistemaDeVentasUTP/src/conexion/Conexion.java</file>
         </group>
     </open-files>
 </project-private>

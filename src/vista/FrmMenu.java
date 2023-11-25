@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.Ctrl_Empleado;
+import controlador.Reportes;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -541,19 +542,24 @@ public class FrmMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu_nueva_ventaActionPerformed
 
     private void jMenu_reporte_clientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_reporte_clientesActionPerformed
- 
+        Reportes reporte = new Reportes();
+        reporte.ReportesClientes();
     }//GEN-LAST:event_jMenu_reporte_clientesActionPerformed
 
     private void jMenu_reporte_productosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_reporte_productosActionPerformed
-
+        Reportes reporte = new Reportes();
+        reporte.ReportesProductos();
     }//GEN-LAST:event_jMenu_reporte_productosActionPerformed
 
     private void jMenu_reporte_ventasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_reporte_ventasActionPerformed
- 
+        Reportes reporte = new Reportes();
+        reporte.ReportesVentas();
     }//GEN-LAST:event_jMenu_reporte_ventasActionPerformed
 
     private void jMenu_ver_historialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_ver_historialActionPerformed
-
+        InterGraficas interGraficas = new InterGraficas();
+        jDesktopPane_menu.add(interGraficas);
+        interGraficas.setVisible(true);
     }//GEN-LAST:event_jMenu_ver_historialActionPerformed
 
     private void jMenu_nuevo_proveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_nuevo_proveedorActionPerformed
